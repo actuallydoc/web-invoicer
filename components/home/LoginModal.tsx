@@ -18,7 +18,7 @@ const LoginModal = (props: Props) => {
     console.log(loginForm);
   };
   return (
-    <div className="justify-center">
+    <div className="text-center">
       <div className={" text-black"}>
         <div className="text-white  w-64 h-80 pt-5 bg-slate-500 rounded-md drop-shadow-lg">
           <div className="pb-3">

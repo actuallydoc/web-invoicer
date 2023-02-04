@@ -38,17 +38,22 @@ export default function Home() {
                 Za začetek izberite eno od možnosti v meniju
               </p>
             </div>
+
+            {login && <LoginModal />}
           </div>
+
           <div className="flex space-x-5 justify-center">
             <div>
-              <button
-                onClick={handleLoginBtn}
-                className={
-                  "bg-blue-500   hover:transition-all hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                }
-              >
-                Prijava
-              </button>
+              {!login && (
+                <button
+                  onClick={handleLoginBtn}
+                  className={
+                    "bg-blue-500   hover:transition-all hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  }
+                >
+                  Prijava
+                </button>
+              )}
             </div>
 
             <div>
@@ -61,10 +66,6 @@ export default function Home() {
                 Registracija
               </button>
             </div>
-          </div>
-          <div className="text-center justify-center">
-            {login && <LoginModal />}
-            {login && <h1>Fade out component</h1>}
           </div>
         </div>
       </main>
