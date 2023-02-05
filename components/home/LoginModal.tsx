@@ -2,7 +2,9 @@ import React from "react";
 import { useState } from "react";
 type Props = {};
 
-const LoginModal = (props: Props) => {
+//!TODO - Check box state into the login form state
+const LoginModal = ({ close }: any) => {
+  const [isclose, setisClose] = useState(close);
   const [checkbox, setCheckbox] = useState(false);
   const [loginForm, setLoginForm] = useState({
     username: "",
@@ -18,9 +20,19 @@ const LoginModal = (props: Props) => {
     console.log(loginForm);
   };
   return (
-    <div className="text-center">
+    <div className="text-center drop-shadow-2xl">
       <div className={" text-black"}>
-        <div className="text-white  w-64 h-80 pt-5 bg-slate-500 rounded-md drop-shadow-lg">
+        <div className="text-white  w-64 h-80 pt-5 bg-slate-500 border-4 border-gray-600 rounded-md">
+          <div>
+            <button
+              onClick={close}
+              className={
+                "flex bg-gray-700 hover:bg-gray-900 text-white text-sm text-center mr-auto ml-0 font-bold py-2 px-4 rounded"
+              }
+            >
+              X
+            </button>
+          </div>
           <div className="pb-3">
             <h1>Prijava</h1>
           </div>
@@ -47,7 +59,11 @@ const LoginModal = (props: Props) => {
             </div>
           </div>
           <div>
-            <input onClick={handleCheckbox} type="checkbox" />
+            <input
+              onChange={handleCheckbox}
+              name="rememberMe"
+              type="checkbox"
+            />
             <label className={"text-white"}>Zapomni si me</label>
           </div>
           <div>
@@ -55,10 +71,10 @@ const LoginModal = (props: Props) => {
               Pozabljeno geslo?
             </a>
           </div>
-          <div>
+          <div className="pt-3">
             <button
               className={
-                "bg-gray-700 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded"
+                "bg-gray-700 hover:bg-gray-900 text-white text-sm font-bold py-2 px-4 rounded"
               }
             >
               Prijava

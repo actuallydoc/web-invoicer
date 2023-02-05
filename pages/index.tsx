@@ -38,8 +38,6 @@ export default function Home() {
                 Za začetek izberite eno od možnosti v meniju
               </p>
             </div>
-
-            {login && <LoginModal />}
           </div>
 
           <div className="flex space-x-5 justify-center">
@@ -66,6 +64,9 @@ export default function Home() {
                 Registracija
               </button>
             </div>
+          </div>
+          <div className="flex justify-center pt-10 hover:scale-105 duration-100 ">
+            {login && <LoginModal />}
           </div>
         </div>
       </main>
