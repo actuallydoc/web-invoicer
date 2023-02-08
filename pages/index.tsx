@@ -2,17 +2,22 @@ import Head from "next/head";
 import { Inter } from "@next/font/google";
 import { useEffect, useState } from "react";
 import LoginModal from "@/components/home/LoginModal";
+import RegisterModal from "@/components/home/RegisterModal";
 
 export default function Home() {
   const [login, setLogin] = useState(false);
-  const [register, setRegister] = useState(false);
+  const [register, setRegister] = useState(!login);
 
   const handleLoginBtn = () => {
-    console.log("login");
     setLogin(!login);
     console.log(login);
   };
-
+  const closeLogin = () => {
+    setLogin(false);
+  };
+  const closeRegister = () => {
+    setRegister(false);
+  };
   const handleRegisterBtn = () => {
     setRegister(!register);
   };
@@ -55,18 +60,21 @@ export default function Home() {
             </div>
 
             <div>
-              <button
-                onClick={handleRegisterBtn}
-                className={
-                  "bg-blue-500 hover:bg-blue-700 hover:transition-all text-white font-bold py-2 px-4 rounded"
-                }
-              >
-                Registracija
-              </button>
+              {!register && (
+                <button
+                  onClick={handleRegisterBtn}
+                  className={
+                    "bg-blue-500 hover:bg-blue-700 hover:transition-all text-white font-bold py-2 px-4 rounded"
+                  }
+                >
+                  Registracija
+                </button>
+              )}
             </div>
           </div>
-          <div className="flex justify-center pt-10 hover:scale-105 duration-100 ">
-            {login && <LoginModal />}
+          <div className="box-sized  flex justify-center pt-10">
+            {login && <LoginModal cb={closeLogin} />}
+            {register && <RegisterModal cb={closeRegister} />}
           </div>
         </div>
       </main>

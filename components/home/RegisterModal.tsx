@@ -5,19 +5,20 @@ type Props = {};
 //!TODO - Check box state into the login form state
 const LoginModal = ({ cb }: any) => {
   const [checkbox, setCheckbox] = useState(false);
-  const [loginForm, setLoginForm] = useState({
+  const [registerForm, setRegisterForm] = useState({
     username: "",
     password: "",
-    rememberMe: checkbox,
+    email: "",
+    agree: false,
   });
 
   const handleCheckbox = () => {
     setCheckbox(!checkbox);
     console.log(checkbox);
   };
-  const handleLoginForm = (e: any) => {
-    setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
-    console.log(loginForm);
+  const handleRegisterForm = (e: any) => {
+    setRegisterForm({ ...registerForm, [e.target.name]: e.target.value });
+    console.log(registerForm);
   };
   return (
     <div className="text-center drop-shadow-2xl overflow-hidden">
@@ -34,12 +35,12 @@ const LoginModal = ({ cb }: any) => {
             </button>
           </div>
           <div className="pb-3">
-            <h1>Prijava</h1>
+            <h1>Registracija</h1>
           </div>
           <div className="space-y-3">
             <div className="text-black">
               <input
-                onChange={handleLoginForm}
+                onChange={handleRegisterForm}
                 className={"rounded-md p-2 focus:outline-transparent"}
                 name="username"
                 type="text"
@@ -49,7 +50,17 @@ const LoginModal = ({ cb }: any) => {
             </div>
             <div className="text-black">
               <input
-                onChange={handleLoginForm}
+                onChange={handleRegisterForm}
+                className={"rounded-md p-2 focus:outline-transparent"}
+                name="email"
+                type="text"
+                required
+                placeholder="Email"
+              />
+            </div>
+            <div className="text-black">
+              <input
+                onChange={handleRegisterForm}
                 className={"rounded-md p-2 focus:outline-transparent"}
                 type="password"
                 name="password"
@@ -64,20 +75,16 @@ const LoginModal = ({ cb }: any) => {
               name="rememberMe"
               type="checkbox"
             />
-            <label className={"text-white"}>Zapomni si me</label>
+            <label className={"text-white"}>Strinjam se s pogoji</label>
           </div>
-          <div>
-            <a href="#" className={"text-white"}>
-              Pozabljeno geslo?
-            </a>
-          </div>
+
           <div className="pt-3">
             <button
               className={
                 "bg-gray-700 hover:bg-gray-900 text-white text-sm font-bold py-2 px-4 rounded"
               }
             >
-              Prijava
+              Registracija
             </button>
           </div>
         </div>
