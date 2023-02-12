@@ -3,10 +3,11 @@ import { Inter } from "@next/font/google";
 import { useEffect, useState } from "react";
 import LoginModal from "@/components/home/LoginModal";
 import RegisterModal from "@/components/home/RegisterModal";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function Home() {
   const [login, setLogin] = useState(false);
-  const [register, setRegister] = useState(!login);
+  const [register, setRegister] = useState(false);
 
   const handleLoginBtn = () => {
     setLogin(!login);
@@ -77,6 +78,7 @@ export default function Home() {
             {register && <RegisterModal cb={closeRegister} />}
           </div>
         </div>
+        <ToastContainer />
       </main>
     </>
   );

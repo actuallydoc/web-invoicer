@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 type Props = {};
 
 //!TODO - Check box state into the login form state
@@ -8,9 +10,46 @@ const LoginModal = ({ cb }: any) => {
   const [loginForm, setLoginForm] = useState({
     username: "",
     password: "",
-    rememberMe: checkbox,
+    agree: checkbox,
   });
 
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const notify = (message: string) => toast(message);
+  const sendToast = (message: string) => {
+    setToastMessage(message);
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
+  };
+  const handleLogin = () => {
+    //Check if all fields are filled
+    if (loginForm.username === "" || loginForm.password === "") {
+      sendToast("Vsa polja morajo biti izpolnjena!");
+      return;
+    }
+    //Check if email is valid
+    if (
+      loginForm.username == "" ||
+      loginForm.username == null ||
+      loginForm.password.length < 4
+    ) {
+      sendToast("Vsa polja morajo biti izpolnjena!");
+      return;
+    }
+    //Check if password is long enough
+    if (loginForm.password.length < 8) {
+      sendToast("Geslo mora biti dolgo vsaj 8 znakov!");
+      return;
+    }
+    //Check if user agreed to terms and conditions
+
+    //Send data to the server
+    //TODO
+    //Show success message
+    sendToast("Uspešno ste se prijavili v portal!");
+  };
   const handleCheckbox = () => {
     setCheckbox(!checkbox);
     console.log(checkbox);
@@ -73,12 +112,14 @@ const LoginModal = ({ cb }: any) => {
           </div>
           <div className="pt-3">
             <button
+              onClick={handleLogin}
               className={
                 "bg-gray-700 hover:bg-gray-900 text-white text-sm font-bold py-2 px-4 rounded"
               }
             >
               Prijava
             </button>
+            <div>{showToast && notify(toastMessage)};</div>
           </div>
         </div>
       </div>
