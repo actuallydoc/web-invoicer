@@ -28,44 +28,28 @@ const registerSchema = z.object({
   }).default(false)
 });
 const LoginModal = ({ cb }: any) => {
-  const [checkbox, setCheckbox] = useState(false);
-
 
   useEffect(() => {
     console.log(registerSchema);
     }, [registerSchema]);
 
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-  const notify = (message: string) => toast(message);
-  const sendToast = (message: string) => {
-    setToastMessage(message);
-    setShowToast(true);
-    setTimeout(() => {
-      setShowToast(false);
-    }, 3000);
-  };
-  const handleCheckbox = () => {
-    setCheckbox(!checkbox);
-    registerSchema.parse({ agree: checkbox });
-
-  };
-  const handleRegisterForm = (e: any) => {
-    registerSchema.parse(e.target.value);
-  };
-
-
   const {
     register,
     handleSubmit,
-      watch,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<FormSchemaType>({
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit: SubmitHandler<FormSchemaType> = (data) => {
+  const onSubmit: SubmitHandler<FormSchemaType> =async (data) => {
     console.log(data);
+    await new Promise(async (resolve) => {
+    await setTimeout(() => {
+        resolve(undefined);
+    }, 3000);
+    });
+
     //Implement register logic
     //With api
     //Toastify message
@@ -82,9 +66,15 @@ const LoginModal = ({ cb }: any) => {
   }
 
   return (
-      <form className={"box w-96 h-auto font-semibold bg-white rounded-lg  space-y-10"} onSubmit={handleSubmit(onSubmit)}>
+      <form className={"box w-96 h-auto font-semibold bg-white rounded-lg"} onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <button className={"text-black font-bold p-2  rounded-lg hover:bg-slate-200 duration-200"} onClick={cb}>X</button>
+        </div>
     <div className="text-center drop-shadow-2xl overflow-hidden">
+
       <div className={"text-black"}>
+        <h1 className={"text-2xl font-bold"}>Registracija</h1>
+        <p className={"text-sm pb-5"}>Za uporabo naše aplikacije je potrebna registracija</p>
         <div>
           <label className={"block"}>
             <span>Uporabniško ime</span>
@@ -103,7 +93,7 @@ const LoginModal = ({ cb }: any) => {
         </div>
         <div>
           <label className={"block"}>
-            <span>Password</span>
+            <span>Geslo</span>
             <input  className={"block font-normal  border text-lg px-4 py-3 mt-2 rounded-lg border-gray-200 focus:bg-white text-gray" +
                 "focus:border-blue-400 focus:ring-0 outline-none w-full disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"} type={"password"} {...register('password')}
                   disabled={isSubmitting}/>
@@ -117,7 +107,7 @@ const LoginModal = ({ cb }: any) => {
           {errors.agree && <p className={"text-red-500 text-sm"}>{errors.agree.message}</p>}
         </div>
 
-        <button disabled={isSubmitting} className={"text-slate-300 border p-2 bg-blue-500 w-1/2 rounded-lg hover:bg-blue-600"} type="submit">Registracija </button>
+        <button disabled={isSubmitting} className={"text-slate-300 border p-2 bg-blue-500 w-1/2 rounded-lg hover:bg-blue-600 duration-200"} type="submit">Registracija </button>
       </div>
       {/* This is only for debugging purposes to display form data*/}
       <pre>{JSON.stringify(watch(), null, 2)}</pre>
