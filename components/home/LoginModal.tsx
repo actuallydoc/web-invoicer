@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-type Props = {};
+
 type FormSchemaType = z.infer<typeof loginSchema>;
 const loginSchema = z.object({
   username: z.string({
@@ -25,10 +25,6 @@ const LoginModal = ({ cb }: any) => {
         resolve(undefined);
       }, 3000);
     });
-
-    //Implement register logic
-    //With api
-    //Toastify message
     toast("Prijava uspešna", {
       position: "top-right",
       autoClose: 1000,

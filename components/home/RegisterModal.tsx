@@ -5,9 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-type Props = {};
-
-//!TODO - Check box state into the login form state
 
 type FormSchemaType = z.infer<typeof registerSchema>;
 const registerSchema = z.object({
@@ -29,10 +26,6 @@ const registerSchema = z.object({
 });
 const LoginModal = ({ cb }: any) => {
 
-  useEffect(() => {
-    console.log(registerSchema);
-    }, [registerSchema]);
-
   const {
     register,
     handleSubmit,
@@ -41,18 +34,14 @@ const LoginModal = ({ cb }: any) => {
   } = useForm<FormSchemaType>({
     resolver: zodResolver(registerSchema),
   });
-
   const onSubmit: SubmitHandler<FormSchemaType> =async (data) => {
     console.log(data);
-    await new Promise(async (resolve) => {
+    await new Promise(async (resolve, reject) => {
     await setTimeout(() => {
         resolve(undefined);
     }, 3000);
     });
 
-    //Implement register logic
-    //With api
-    //Toastify message
     toast("Registracija uspešna", {
         position: "top-right",
         autoClose: 1000,

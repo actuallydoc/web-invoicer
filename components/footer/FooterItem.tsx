@@ -3,7 +3,7 @@ import React from "react";
 type Props = {
   text: string;
   link: boolean;
-  icon: string;
+  icon?: string;
   bold?: boolean;
   linkUrl?: string;
 };

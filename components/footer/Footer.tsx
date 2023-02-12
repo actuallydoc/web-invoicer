@@ -29,13 +29,12 @@ function Footer({}: Props) {
               bold={true}
             />
           </div>
-          <div></div>
 
-          <FooterItem text="Contact" link={true} icon="👨" bold={true} />
+          <FooterItem text="Contact" link={true} linkUrl={"mailto:actuallydoc@gmail.com"} bold={true} />
         </div>
         {/*You can add a spacer here and make another section of the footer */}
         <div className="text-center font-bold">
-          <p>© 2023 ActuallyDoc 👮‍♀️</p>
+          <p>© 2023 ActuallyDoc (Self Taught Developer)👮‍♀️</p>
         </div>
       </div>
     </footer>
