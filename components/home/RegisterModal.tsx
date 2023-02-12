@@ -128,7 +128,7 @@ const LoginModal = ({ cb }: any) => {
             >
               Registracija
             </button>
-            <div>{showToast && notify(toastMessage)};</div>
+            {showToast && notify(toastMessage)}
           </div>
         </div>
       </div>

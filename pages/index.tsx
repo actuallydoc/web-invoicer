@@ -5,6 +5,7 @@ import LoginModal from "@/components/home/LoginModal";
 import RegisterModal from "@/components/home/RegisterModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "@/components/footer/Footer";
 export default function Home() {
   const [login, setLogin] = useState(false);
   const [register, setRegister] = useState(false);
@@ -31,7 +32,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={" text-black "}>
+      <main className={" text-black flex flex-col h-screen justify-between"}>
         <div className="justify-center">
           <div className="box-border   p-4 border-b-2 text-center mb-3">
             <div>
@@ -48,7 +49,7 @@ export default function Home() {
 
           <div className="flex space-x-5 justify-center">
             <div>
-              {!login && (
+              {!login && !register && (
                 <button
                   onClick={handleLoginBtn}
                   className={
@@ -61,7 +62,7 @@ export default function Home() {
             </div>
 
             <div>
-              {!register && (
+              {!register && !login && (
                 <button
                   onClick={handleRegisterBtn}
                   className={
@@ -79,6 +80,11 @@ export default function Home() {
           </div>
         </div>
         <ToastContainer />
+        <div>
+          <div className="">
+            <Footer />
+          </div>
+        </div>
       </main>
     </>
   );
