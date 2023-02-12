@@ -41,7 +41,7 @@ export default function Home() {
         )}
         {register && (
           <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10">
-            <div className="box-sized  flex justify-center pt-10">
+            <div className="flex justify-center pt-10">
               {register && <RegisterModal cb={closeRegister} />}
             </div>
           </div>
