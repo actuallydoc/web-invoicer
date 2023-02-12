@@ -34,14 +34,14 @@ export default function Home() {
       <main className={" text-black flex flex-col h-screen justify-between"}>
         {login && (
           <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10">
-            <div className="box-sized  flex justify-center pt-10">
+            <div className="flex h-screen w-screen justify-center items-center">
               {login && <LoginModal cb={closeLogin} />}
             </div>
           </div>
         )}
         {register && (
           <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10">
-            <div className="flex justify-center pt-10">
+            <div className="flex pb-10 h-screen w-screen justify-center items-center">
               {register && <RegisterModal cb={closeRegister} />}
             </div>
           </div>

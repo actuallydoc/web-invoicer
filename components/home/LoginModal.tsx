@@ -50,7 +50,7 @@ const LoginModal = ({ cb }: any) => {
   });
 
   return (
-      <form className={"box w-96 h-auto font-semibold bg-white rounded-lg"} onSubmit={handleSubmit(onSubmit)}>
+      <form className={"box w-96 h-auto font-semibold bg-white rounded-lg drop-shadow-2xl"} onSubmit={handleSubmit(onSubmit)}>
         <div>
           <button className={"text-black font-bold p-2  rounded-lg hover:bg-slate-200 duration-200"} onClick={cb}>X</button>
         </div>
