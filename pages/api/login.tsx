@@ -1,13 +1,22 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
+import {prisma} from "@/db/client";
 
-type Data = {
-  name: string;
-};
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
+
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse<login_response>
 ) {
-  res.status(200).json({ name: "John Doe" });
+
+  const {username, password} = req.body;
+  console.log(username, password);
+  //const user = await prisma.user.findUnique({
+  //  where: {
+  //    email: email
+  //  }
+  //});
+
+
+  res.status(200).json({token: "John Doe"});
 }

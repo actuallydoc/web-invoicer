@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import axios from "axios";
 
 type FormSchemaType = z.infer<typeof loginSchema>;
 const loginSchema = z.object({
@@ -21,9 +22,24 @@ const LoginModal = ({ cb }: any) => {
   const onSubmit: SubmitHandler<FormSchemaType> =async (data) => {
     console.log(data);
     await new Promise(async (resolve) => {
-      await setTimeout(() => {
+
+        axios.post("/api/login", data).then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            toast("Prijava uspešna", {
+              position: "top-right",
+              autoClose: 1000,
+              hideProgressBar: true,
+              closeOnClick: false,
+              pauseOnHover: false,
+              draggable: false,
+              progress: undefined,
+              theme: "dark",
+            });
+            cb();
+          }
+        });
         resolve(undefined);
-      }, 3000);
     });
     toast("Prijava uspešna", {
       position: "top-right",
