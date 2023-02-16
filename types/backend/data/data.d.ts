@@ -1,6 +1,6 @@
 
 
-type User {
+type User =  {
     id: string;
     name: string;
     email: string;
@@ -10,3 +10,4 @@ type User {
     token?: string;
     message?: string;
 }
+

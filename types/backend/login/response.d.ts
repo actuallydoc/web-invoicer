@@ -3,5 +3,11 @@ type login_response = {
     error?: string;
     token?: string;
     message?: string;
+    user?: {
+        id: number;
+        username: string;
+        email: string;
+    }
+
 };
 

@@ -39,7 +39,6 @@ const LoginModal = ({ cb }: any) => {
     console.log(data);
     await new Promise(async (resolve) => {
       axios.post("/api/register", data).then((res) => {
-        console.log(res);
         if (res.status === 200) {
           toast("Registracija uspešna", {
             position: "top-right",
@@ -48,13 +47,14 @@ const LoginModal = ({ cb }: any) => {
             closeOnClick: false,
             pauseOnHover: false,
             draggable: false,
-            progress: undefined,
             theme: "dark",
           });
+          console.log(res.data);
           cb();
+          resolve(res.data);
         }
       });
-      resolve(undefined);
+
     });
 
     toast("Registracija uspešna", {
