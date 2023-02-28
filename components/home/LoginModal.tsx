@@ -6,7 +6,7 @@ import { z } from "zod";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from "axios";
-
+import { useRouter } from "next/router";
 type FormSchemaType = z.infer<typeof loginSchema>;
 const loginSchema = z.object({
   username: z.string({
@@ -19,13 +19,12 @@ const loginSchema = z.object({
   rememberMe: z.boolean().default(false)
 });
 const LoginModal = ({ cb }: any) => {
+  const router = useRouter();
   const onSubmit: SubmitHandler<FormSchemaType> =async (data) => {
     console.log(data);
     await new Promise(async (resolve) => {
-
         axios.post("/api/login", data).then((res) => {
-          console.log(res);
-          if (res.status === 200) {
+          console.log(res); if (res.status === 200) {
             toast("Prijava uspešna", {
               position: "top-right",
               autoClose: 1000,
@@ -37,20 +36,23 @@ const LoginModal = ({ cb }: any) => {
               theme: "dark",
             });
             cb();
+            router.push("/dashboard");
+          } else if(res.status === 400) {
+            toast("Napačno uporabniško ime ali geslo", {
+              position: "top-right",
+              autoClose: 1000,
+              hideProgressBar: true,
+              closeOnClick: false,
+              pauseOnHover: false,
+              draggable: false,
+              progress: undefined,
+              theme: "dark",
+            });
           }
         });
         resolve(undefined);
     });
-    toast("Prijava uspešna", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: true,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "dark",
-    })
+
   }
   const {
     register,
