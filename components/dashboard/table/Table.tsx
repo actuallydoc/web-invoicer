@@ -3,10 +3,11 @@ import InvoiceTable from './invoice/InvoiceTable';
 import ProviderTable from './provider/ProviderTable';
 import ServiceTable from './service/ServiceTable';
 import CustomerTable from './customer/CustomerTable';
+import { Invoice } from '@/pages/dashboard/types';
 
 
 
-export default function Table({datepickerFromState, datepickerToState,datepickerFrom, datepickerTo, invoiceState, providerState, serviceState, customerState}: {datepickerFromState: string, datepickerToState: string,datepickerFrom: React.Dispatch<React.SetStateAction<string>> ,datepickerTo:React.Dispatch<React.SetStateAction<string>>,  invoiceState: boolean, providerState:boolean, serviceState: boolean, customerState: boolean}) {
+export default function Table({InvoiceDataCallBack, InvoiceDataState,toggleInvoiceModal,InvoiceModalState,datepickerFromState, datepickerToState,datepickerFrom, datepickerTo, invoiceState, providerState, serviceState, customerState}: {InvoiceDataCallBack: React.Dispatch<React.SetStateAction<Invoice | undefined>>, InvoiceDataState: Invoice | undefined,toggleInvoiceModal: React.Dispatch<React.SetStateAction<boolean>>, InvoiceModalState: boolean,datepickerFromState: string, datepickerToState: string,datepickerFrom: React.Dispatch<React.SetStateAction<string>> ,datepickerTo:React.Dispatch<React.SetStateAction<string>>,  invoiceState: boolean, providerState:boolean, serviceState: boolean, customerState: boolean}) {
   useEffect(() => {
     //!Todo - Check if user is logged in
     //!Todo - Check for user data and fetch into a table
@@ -15,7 +16,7 @@ export default function Table({datepickerFromState, datepickerToState,datepicker
   if (invoiceState) {
     return (
     <div className=''>
-      <InvoiceTable datepickerToState={datepickerToState} datepickerFromState={datepickerFromState} datepickerFrom={datepickerFrom} datepickerTo={datepickerTo}/>
+      <InvoiceTable InvoiceDataState={InvoiceDataState} IvoiceDataCallBack={InvoiceDataCallBack} toggleInvoiceModal={toggleInvoiceModal} InvoiceModalState={InvoiceModalState} datepickerToState={datepickerToState} datepickerFromState={datepickerFromState} datepickerFrom={datepickerFrom} datepickerTo={datepickerTo}/>
     </div>)
       }
   else if (providerState) {

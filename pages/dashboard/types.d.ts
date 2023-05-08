@@ -24,6 +24,7 @@ export interface Customer {
     city: string;
     country: string;
     postalCode: string;
+    tax_id: string | null;
 }
 export interface Service {
     id: number;
