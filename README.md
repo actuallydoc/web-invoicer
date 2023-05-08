@@ -8,6 +8,9 @@
 - TypeScript
 - Prisma
 - PostgreSQL
+
+![alt text](https://i.imgur.com/MVtBhLI.png)
+![alt test](https://i.imgur.com/LOgG69V.png)
 First, run the development server:
 
 ```bash

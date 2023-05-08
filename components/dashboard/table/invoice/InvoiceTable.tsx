@@ -12,8 +12,20 @@ const TableDataRows = [
 export default function InvoiceTable() {
     return (
       <div>
-      <div>
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Datepicker</button>
+      <div className='flex-col bg-blue-500 text-white font-bold py-2 px-4 rounded'>
+      <h1 className="flex text-xl justify-center align-middle">Invoice Table</h1>
+      <div className='flex space-x-5'>
+        <div>
+          <input type='date' className="flex justify-center align-middle bg-white border rounded-md text-black px-3"></input>
+        </div>
+        <div>
+          <p>to</p>
+        </div>
+        <div>
+          <input type='date' className="flex justify-center align-middle bg-white border rounded-md text-black px-3"></input>
+        </div>
+      </div>
+      
     </div>
         <table className="min-w-[80%] divide-y divide-gray-200">
           <thead>

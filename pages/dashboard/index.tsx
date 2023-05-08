@@ -49,10 +49,10 @@ const Index = () => {
                     <Navbar profilecallback={setProfile} invoiceCallback={setInvoice} customerCallback={setCustomer} providerCallback={setProvider} serviceCallback={setService}/>
                 </div>
             </header>
-            <main className='flex flex-col h-screen justify-between'>
+            <main className='flex flex-col h-screen justify-between bg-slate-200'>
                 <div className=''>
                     {/* Fix the Width of the bg-slate-200 its basically too wide */}
-                    <div className='flex flex-col items-center justify-center pt-5 bg-slate-200'>
+                    <div className='flex flex-col items-center justify-center pt-5'>
                         <Table invoiceState={invoice} customerState={customer} providerState={provider} serviceState={service}/>
                     </div>
                 </div>
