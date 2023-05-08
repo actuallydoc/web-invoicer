@@ -6,7 +6,7 @@ import CustomerTable from './customer/CustomerTable';
 
 
 
-export default function Table({invoiceState, providerState, serviceState, customerState}: { invoiceState: boolean, providerState:boolean, serviceState: boolean, customerState: boolean}) {
+export default function Table({datepickerFromState, datepickerToState,datepickerFrom, datepickerTo, invoiceState, providerState, serviceState, customerState}: {datepickerFromState: string, datepickerToState: string,datepickerFrom: React.Dispatch<React.SetStateAction<string>> ,datepickerTo:React.Dispatch<React.SetStateAction<string>>,  invoiceState: boolean, providerState:boolean, serviceState: boolean, customerState: boolean}) {
   useEffect(() => {
     //!Todo - Check if user is logged in
     //!Todo - Check for user data and fetch into a table
@@ -15,7 +15,7 @@ export default function Table({invoiceState, providerState, serviceState, custom
   if (invoiceState) {
     return (
     <div className=''>
-      <InvoiceTable/>
+      <InvoiceTable datepickerToState={datepickerToState} datepickerFromState={datepickerFromState} datepickerFrom={datepickerFrom} datepickerTo={datepickerTo}/>
     </div>)
       }
   else if (providerState) {

@@ -29,6 +29,9 @@ const Index = () => {
     const [providers, setProviders] = useState<Provider[]>([]);
     const [services, setServices] = useState<Service[]>([]);
 
+    const [dateFrom, setDateFrom] = useState('');
+    const [dateTo, setDateTo] = useState('');
+
     const [profile, setProfile] = useState(false);
     const [invoice, setInvoice] = useState(true);
     const [customer, setCustomer] = useState(false);
@@ -41,6 +44,11 @@ const Index = () => {
         //!Todo - Check if user is logged in
         //!Todo - Check for user data and fetch into a table
     }, []);
+    useEffect(() => {
+    //   console.log("Date from: " + dateFrom + " Date to: " + dateTo); 
+    //   Make a filter for the invoice data so you can filter by date
+    }, [dateFrom, dateTo]);
+
     return (
         <div>
             <header>
@@ -53,7 +61,7 @@ const Index = () => {
                 <div className=''>
                     {/* Fix the Width of the bg-slate-200 its basically too wide */}
                     <div className='flex flex-col items-center justify-center pt-5'>
-                        <Table invoiceState={invoice} customerState={customer} providerState={provider} serviceState={service}/>
+                        <Table datepickerFromState={dateFrom} datepickerToState={dateTo} datepickerFrom={setDateFrom} datepickerTo={setDateTo} invoiceState={invoice} customerState={customer} providerState={provider} serviceState={service}/>
                     </div>
                 </div>
 
