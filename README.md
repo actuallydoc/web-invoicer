@@ -1,13 +1,27 @@
 
-## Začetek
+## Web invoicing application
 
-### Frameworki in tehologije uporabljeni v projektu
+### Frameworks used in the project
 - Next.js
 - React.js - React Hooks, React-Query
 - TailwindCSS
 - TypeScript
 - Prisma
 - PostgreSQL
+
+### Features
+- Table of Contents
+- Partners, Invoices, Services, Customers pages
+- Login page , Register page
+### Incoming features
+
+- Database
+- JWT authentication
+- Custom data creation (Services, Partners, Invoices, Customers)
+- Custom Invoice Templates
+- PDF Generation
+- User profile
+- Settings page
 
 ![alt text](https://i.imgur.com/MVtBhLI.png)
 ![alt test](https://i.imgur.com/LOgG69V.png)
