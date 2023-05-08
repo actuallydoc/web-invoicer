@@ -36,4 +36,4 @@ yarn dev
 pnpm dev
 ```
 
-Odprite [http://localhost:3000](http://localhost:3000)  in vaš brskalnik bo prikazal začetno stran.
+Open [http://localhost:3000](http://localhost:3000) and your browser will display the app
