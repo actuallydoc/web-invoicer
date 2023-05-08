@@ -13,6 +13,7 @@
 - Table of Contents
 - Partners, Invoices, Services, Customers pages
 - Login page , Register page
+- Fab buttons to edit , create new data
 ### Incoming features
 
 - Database
@@ -23,7 +24,7 @@
 - User profile
 - Settings page
 
-![alt text](https://i.imgur.com/MVtBhLI.png)
+![alt text](https://i.imgur.com/FJgxKRy.png)
 ![alt test](https://i.imgur.com/LOgG69V.png)
 First, run the development server:
 
