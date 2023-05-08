@@ -1,9 +1,0 @@
-{
-  "partner": "partner",
-  "provider": "provider",
-    "invoiceNumber": "invoiceNumber",
-    "invoiceDate": "invoiceDate",
-    "amount": "amount",
-    "status": "status"
-}
-

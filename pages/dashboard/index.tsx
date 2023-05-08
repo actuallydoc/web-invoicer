@@ -6,6 +6,10 @@ import Table from '@/components/dashboard/table/Table';
 
 const Index = () => {
     const [profile, setProfile] = useState(false);
+    const [invoice, setInvoice] = useState(true);
+    const [customer, setCustomer] = useState(false);
+    const [provider, setProvider] = useState(false);
+    const [service, setService] = useState(false);
     if (profile) {
         console.log("#Profile is true");
     }
@@ -18,25 +22,23 @@ const Index = () => {
             <header>
                 <title>Nadzorna plošča</title>
                 <div className="flex">
-                    <Navbar callback={setProfile} />
+                    <Navbar profilecallback={setProfile} invoiceCallback={setInvoice} customerCallback={setCustomer} providerCallback={setProvider} serviceCallback={setService}/>
                 </div>
             </header>
             <main className='flex flex-col h-screen justify-between'>
                 <div>
-                    <div className='flex flex-col items-center justify-center pt-5 bg-slate-200'>
-                        <Table />
+                    <div className='flex flex-col items-center justify-center pt- bg-slate-200'>
+                        <Table invoiceState={invoice} customerState={customer} providerState={provider} serviceState={service}/>
                     </div>
                 </div>
 
                 <div className='flex flex-col items-center justify-center'>
                     {profile ? <ProfileModal callback={setProfile} /> : null}
                 </div>
-
                 <footer>
                     <div className=''>
                         <Footer />
                     </div>
-
                 </footer>
             </main>
         </div>
