@@ -13,6 +13,9 @@ import ReceiptIcon from '@mui/icons-material/Receipt';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import InvoiceCreateModal from '@/components/dashboard/invoiceModal/InvoiceCreateModal';
 import PersonIcon from '@mui/icons-material/Person';
+import { set } from 'zod';
+import CreateProviderModal from '@/components/dashboard/providerModal/CreateProviderModal';
+import CreateCustomerModal from '@/components/dashboard/customerModal/CreateCustomerModal';
 const Index = () => {
 
 
@@ -40,8 +43,11 @@ const Index = () => {
     const [dateFrom, setDateFrom] = useState('');
     const [dateTo, setDateTo] = useState('');
     //Modal stuff
+
     const [invoiceCreateModal, setInvoiceCreateModal] = useState(false);
     const [invoiceModal, setInvoiceModal] = useState(false);
+    const [createProvider, setCreateProvider] = useState(false);
+    const [createCustomer, setCreateCustomer] = useState(false);
     //Button state and navbar state
     const [showButtons, setShowButtons] = useState(false);
     const [profile, setProfile] = useState(false);
@@ -56,8 +62,8 @@ const Index = () => {
     //Edit for customer
     const [customerEdit, setCustomerEdit] = useState(false);
     //Temp data for the customer
- 
-    
+
+
     if (profile) {
         console.log("#Profile is true");
     }
@@ -65,18 +71,24 @@ const Index = () => {
         //!Todo - Check if user is logged in
         //!Todo - Check for user data and fetch into a table
     }, []);
-    const handleEditFab = () => {
-        console.log("Edit button clicked");
-    };
-    //This is for Adding a new invoice
-    const handleAddFab = () => {
-        console.log("Add button clicked");
+    const handleCreateInvoice = () => {
+        console.log("Create invoice button clicked");
         setInvoiceCreateModal(true);
     };
+    //This is for Adding a new Customer
+    const handleCreateCustomer = () => {
+        console.log("Create customer button clicked");
+        setCreateCustomer(true);
+    };
+
+    //This is for Adding a new invoice
+    const handleCreateProvider = () => {
+        console.log("Create company button clicked");
+        setCreateProvider(true);
+    };
+
     //This is for Editing an invoice
     const handleOpenFab = () => {
-        console.log("Add button clicked");
-        // setInvoiceModal(true);
         setShowButtons(!showButtons);
     };
     return (
@@ -91,18 +103,20 @@ const Index = () => {
                 <div className=''>
                     {/* Fix the Width of the bg-slate-200 its basically too wide */}
                     <div className='flex flex-col items-center justify-center pt-5'>
-                        <Table InvoiceDataCallBack={setInvoiceTemp} InvoiceDataState={invoiceTemp} toggleInvoiceModal={setInvoiceModal} InvoiceModalState={invoiceModal}  datepickerFromState={dateFrom} datepickerToState={dateTo} datepickerFrom={setDateFrom} datepickerTo={setDateTo} invoiceState={invoice} customerState={customer} providerState={provider} serviceState={service} />
+                        <Table InvoiceDataCallBack={setInvoiceTemp} InvoiceDataState={invoiceTemp} toggleInvoiceModal={setInvoiceModal} InvoiceModalState={invoiceModal} datepickerFromState={dateFrom} datepickerToState={dateTo} datepickerFrom={setDateFrom} datepickerTo={setDateTo} invoiceState={invoice} customerState={customer} providerState={provider} serviceState={service} />
                     </div>
                 </div>
 
                 <div className='flex flex-col items-center justify-center'>
                     {invoiceModal ? (
                         <div>
-                         <InvoiceModal InvoiceModalData={invoiceTemp} isModalOpen={invoiceModal} toggleModal={setInvoiceModal} />   
+                            <InvoiceModal InvoiceModalData={invoiceTemp} isModalOpen={invoiceModal} toggleModal={setInvoiceModal} />
                         </div>
-                    )  : null}
+                    ) : null}
                     {invoiceCreateModal ? <InvoiceCreateModal isModalOpen={invoiceCreateModal} toggleModal={setInvoiceCreateModal} /> : null}
                     {profile ? <ProfileModal callback={setProfile} /> : null}
+                    {createProvider ? <CreateProviderModal isModalOpen={createProvider} toggleModal={setCreateProvider} /> : null}
+                    {createCustomer ? <CreateCustomerModal isModalOpen={createCustomer} toggleModal={setCreateCustomer} /> : null}
                     {/* Make something here for the button make it so u can have options to create services, customers , invoices, providers */}
                     <div className='flex space-x-5 fixed bottom-3 right-14'>
                         <div>
@@ -120,21 +134,21 @@ const Index = () => {
                                 </div> */}
                                 <div>
                                     <Tooltip title="Create Invoice" placement="left" >
-                                        <Fab onClick={handleEditFab} className="bg-red-500" color="primary" aria-label="option 2">
+                                        <Fab onClick={handleCreateInvoice} className="bg-red-500" color="primary" aria-label="option 2">
                                             <ReceiptIcon />
                                         </Fab>
                                     </Tooltip>
                                 </div>
                                 <div>
-                                    <Tooltip title="Create Company" placement="left">
-                                        <Fab onClick={handleEditFab} className="bg-slate-500" color="primary" aria-label="option 2">
+                                    <Tooltip title="Create Provider" placement="left">
+                                        <Fab onClick={handleCreateProvider} className="bg-slate-500" color="primary" aria-label="option 2">
                                             <ApartmentIcon />
                                         </Fab>
                                     </Tooltip>
                                 </div>
                                 <div>
                                     <Tooltip title="Create Customer" placement="left">
-                                        <Fab onClick={handleEditFab} className="bg-slate-800" color="primary" aria-label="option 2">
+                                        <Fab onClick={handleCreateCustomer} className="bg-slate-800" color="primary" aria-label="option 2">
                                             <PersonIcon />
                                         </Fab>
                                     </Tooltip>
@@ -147,7 +161,7 @@ const Index = () => {
                             </Fab>
                         </div>
                     </div>
-        
+
                 </div>
                 <footer>
                     <div className=''>

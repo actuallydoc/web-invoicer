@@ -1,6 +1,7 @@
 export enum InvoiceStatus {
     PAID = "PAID",
     UNPAID = "UNPAID",
+    DRAFT = "DRAFT",
 }
 export interface User {
     name: string;
@@ -43,7 +44,8 @@ export interface Provider {
     ProviderCity: string;
     ProviderCountry: string;
     ProviderPostalCode: string;
-    services: Service[];
+    Signature: File | undefined; //Base64 encoded string
+    // services: Service[];
 }
 export interface Invoice {
     id: number;
@@ -52,7 +54,7 @@ export interface Invoice {
     invoiceServiceDate: string;
     invoiceDueDate: string;
     invoiceNumber: string;
-    invoiceAmount: string;
+    invoiceAmount: number;
     invoiceStatus: InvoiceStatus;
     provider: Provider;
     customer: Customer;
