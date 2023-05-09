@@ -96,7 +96,11 @@ const Index = () => {
                 </div>
 
                 <div className='flex flex-col items-center justify-center'>
-                    {invoiceModal ? <InvoiceModal InvoiceModalData={invoiceTemp} isModalOpen={invoiceModal} toggleModal={setInvoiceModal} /> : null}
+                    {invoiceModal ? (
+                        <div>
+                         <InvoiceModal InvoiceModalData={invoiceTemp} isModalOpen={invoiceModal} toggleModal={setInvoiceModal} />   
+                        </div>
+                    )  : null}
                     {invoiceCreateModal ? <InvoiceCreateModal isModalOpen={invoiceCreateModal} toggleModal={setInvoiceCreateModal} /> : null}
                     {profile ? <ProfileModal callback={setProfile} /> : null}
                     {/* Make something here for the button make it so u can have options to create services, customers , invoices, providers */}
@@ -142,18 +146,8 @@ const Index = () => {
                                 <ArrowBackIcon />
                             </Fab>
                         </div>
-
-                        {/* We might use this but for now its useless 
-                        <div>
-                            <Fab onClick={handleEditFab} className="bg-pink-600" color='primary' aria-label='add'>
-                            <EditIcon/>
-                        </Fab>
-                        </div> */}
-
                     </div>
-                    {/* <HiPlus
-            className='rounded-full h-14 w-14 fixed bottom-3 right-14 bg-green-400 cursor-pointer hover:animate-bounce duration-150'
-          /> */}
+        
                 </div>
                 <footer>
                     <div className=''>

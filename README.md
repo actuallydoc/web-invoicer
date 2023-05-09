@@ -23,8 +23,8 @@
 - PDF Generation
 - User profile
 - Settings page
-
-![alt text](https://i.imgur.com/FJgxKRy.png)
+![alt text](https://i.imgur.com/gt0qXYT.png)
+![alt text](https://i.imgur.com/V19bXbd.png)
 ![alt test](https://i.imgur.com/LOgG69V.png)
 First, run the development server:
 
