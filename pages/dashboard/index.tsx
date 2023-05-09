@@ -7,11 +7,12 @@ import { User, Customer, Invoice, Provider, Service } from "../dashboard/types"
 import Fab from '@mui/material/Fab';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
 import InvoiceModal from '@/components/dashboard/invoiceModal/InvoiceModal';
 import { Tooltip } from '@mui/material';
-import InvoiceCreateModa from '@/components/dashboard/invoiceModal/InvoiceCreateModal';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import ApartmentIcon from '@mui/icons-material/Apartment';
 import InvoiceCreateModal from '@/components/dashboard/invoiceModal/InvoiceCreateModal';
+import PersonIcon from '@mui/icons-material/Person';
 const Index = () => {
 
 
@@ -106,17 +107,31 @@ const Index = () => {
                                     } transition-transform duration-300 transform ${showButtons ? "-translate-y-full" : "translate-y-0"
                                     }`}
                             >
-                                <div>
+                                {/* <div>
                                     <Tooltip title="Create">
                                         <Fab onClick={handleAddFab} className="bg-green-800" color="primary" aria-label="option 1">
                                             <AddIcon />
                                         </Fab>
                                     </Tooltip>
+                                </div> */}
+                                <div>
+                                    <Tooltip title="Create Invoice" placement="left" >
+                                        <Fab onClick={handleEditFab} className="bg-red-500" color="primary" aria-label="option 2">
+                                            <ReceiptIcon />
+                                        </Fab>
+                                    </Tooltip>
                                 </div>
                                 <div>
-                                    <Tooltip title="Edit">
-                                        <Fab onClick={handleEditFab} className="bg-red-500" color="primary" aria-label="option 2">
-                                            <EditIcon />
+                                    <Tooltip title="Create Company" placement="left">
+                                        <Fab onClick={handleEditFab} className="bg-slate-500" color="primary" aria-label="option 2">
+                                            <ApartmentIcon />
+                                        </Fab>
+                                    </Tooltip>
+                                </div>
+                                <div>
+                                    <Tooltip title="Create Customer" placement="left">
+                                        <Fab onClick={handleEditFab} className="bg-slate-800" color="primary" aria-label="option 2">
+                                            <PersonIcon />
                                         </Fab>
                                     </Tooltip>
                                 </div>

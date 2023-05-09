@@ -2,6 +2,9 @@ import { Invoice, InvoiceStatus, Service } from '@/pages/dashboard/types'
 import Tooltip from '@mui/material/Tooltip'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { TypeOf } from 'zod'
+import { jsPDF } from 'jspdf'
+import Fab from '@mui/material/Fab'
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function InvoiceModal({ InvoiceModalData, isModalOpen, toggleModal }: { InvoiceModalData: Invoice, isModalOpen: boolean, toggleModal: React.Dispatch<React.SetStateAction<boolean>> }) {
   //!TODO - Add on change events to modify the temp invoice and update the invoice
@@ -11,7 +14,6 @@ export default function InvoiceModal({ InvoiceModalData, isModalOpen, toggleModa
     toggleModal(false)
   }
   useEffect(() => {
-    // setEditInvoiceData(InvoiceModalData)
   }, [])
 
   const handleDeleteService = (index: number) => {
@@ -186,14 +188,21 @@ export default function InvoiceModal({ InvoiceModalData, isModalOpen, toggleModa
                       {editInvoiceData?.services?.map((service, index) => (
                         <div key={index} className='flex space-x-3 p-3'>
                           {/* <h4 className="text-left text-lg font-medium">Service {index + 1}</h4> */}
-                          <div>
-                            <button onClick={() => handleDeleteService(index)} className="flex justify-center align-middle bg-red-500 border rounded-md text-white px-3">X</button>
-                          </div>
+                          <div className='pt-5'>
+                            <Tooltip placement='left' title="Delete Service?">
+                               <Fab onClick={()=>{
+                                handleDeleteService(index)
+                               }} className="bg-red-500" size='small' color="error" aria-label="option 2">
+                              <CloseIcon />
+                            </Fab> 
+                            </Tooltip>
+                           
+                            </div>
                           <div>
                             <Tooltip placement="top" title="Service description" arrow>
-                            <textarea onChange={(e)=>{
-                              handleTextAreaChange(e,index)
-                            }} rows={4} cols={30} value={service.description} />
+                              <textarea onChange={(e) => {
+                                handleTextAreaChange(e, index)
+                              }} rows={4} cols={30} value={service.description} />
                             </Tooltip>
                           </div>
 
