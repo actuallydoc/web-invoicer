@@ -8,7 +8,11 @@ const CustomerTableDataRows = [
 ]
 
 export default function CustomerTable() {
-    return (
+  return (
+    <div>
+      <div className='flex-col bg-blue-500 text-black py-2  px-4 rounded'></div>
+      <h1 className="flex text-xl justify-center align-middle text-white font-bold bg-blue-500 p-3">Customer Table</h1>
+      <div className='flex space-x-5'>
         <table className="min-w-[60%] divide-y divide-gray-200">
           <thead>
             <tr>
@@ -33,5 +37,7 @@ export default function CustomerTable() {
             })}
           </tbody>
         </table>
-      )
+      </div>
+    </div>
+  )
 }

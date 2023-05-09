@@ -13,7 +13,7 @@ export default function InvoiceCreateModal({ isModalOpen, toggleModal }: { isMod
     invoiceAmount: 0,
     invoiceDate: "",
     invoiceDueDate: "",
-    invoiceNumber: "123",
+    invoiceNumber: "",
     invoiceServiceDate: "",
     invoiceStatus: InvoiceStatus.DRAFT,
     price_tax: 0,
@@ -57,9 +57,9 @@ export default function InvoiceCreateModal({ isModalOpen, toggleModal }: { isMod
       {
         ServiceDescription: "",
         ServiceQuantity: 1,
-        ServicePriceTax: 2,
+        ServicePriceTax: 1,
         ServiceName: "",
-        id: 1,
+        id: 0,
       }]
   })
 
@@ -151,7 +151,7 @@ export default function InvoiceCreateModal({ isModalOpen, toggleModal }: { isMod
             </div>
             <div className="bg-gray-200 rounded-lg shadow-lg relative w-auto">
               <Tooltip placement="top" title="Close modal" arrow>
-                <button onClick={handleCloseModal} className="text-gray-700 hover:text-gray-800 focus:outline-none">
+                <button onClick={handleCloseModal} className="text-gray-700 p-3 hover:text-gray-800 focus:outline-none">
                   <svg
                     className="h-6 w-6 fill-current"
                     xmlns="http://www.w3.org/2000/svg"

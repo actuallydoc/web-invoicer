@@ -35,7 +35,7 @@ const provider1: Provider = {
   ProviderCity: "New York",
   ProviderCountry: "USA",
   ProviderPostalCode: "10001",
-  services: [service1],
+  Signature: undefined,
 };
 const user1: User = {
   name: "Jane Doe",
@@ -57,7 +57,7 @@ const invoice1: Invoice = {
   invoiceDueDate: "2025-01-31",
   invoiceServiceDate: "2025-01-01",
   invoiceNumber: "INV-001",
-  invoiceAmount: "$1000.00",
+  invoiceAmount: 1000,
   invoiceStatus: InvoiceStatus.PAID,
   provider: provider1,
   customer: customer1,
@@ -73,7 +73,7 @@ const invoice2: Invoice = {
   invoiceDueDate: "2022-02-01",
   invoiceServiceDate: "2022-01-01",
   invoiceNumber: "INV-002",
-  invoiceAmount: "$1000.00",
+  invoiceAmount: 1000,
   invoiceStatus: InvoiceStatus.UNPAID,
   provider: provider1,
   customer: customer1,

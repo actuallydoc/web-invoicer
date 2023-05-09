@@ -82,7 +82,7 @@ export default function CreateProviderModal({ isModalOpen, toggleModal }: { isMo
                     </div>
                     <div className="bg-gray-200 rounded-lg shadow-lg relative w-auto">
                         <Tooltip placement="top" title="Close modal" arrow>
-                            <button onClick={handleCloseModal} className="text-gray-700 hover:text-gray-800 focus:outline-none">
+                            <button onClick={handleCloseModal} className="text-gray-700 p-3 hover:text-gray-800 focus:outline-none">
                                 <svg
                                     className="h-6 w-6 fill-current"
                                     xmlns="http://www.w3.org/2000/svg"

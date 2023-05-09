@@ -6,8 +6,11 @@ const ProviderTableDataRows = [
   ['Jane Doe', '123 Main Street', 'New York', 'USA', '1234567890', 'anpch@example.com'],
 ]
 export default function ProviderTable() {
-    return (
-      <div>
+  return (
+    <div>
+      <div className='flex-col bg-blue-500 text-black py-2  px-4 rounded'></div>
+      <h1 className="flex text-xl justify-center align-middle text-white font-bold bg-blue-500 p-3">Provider Table</h1>
+      <div className='flex space-x-5'>
         <table className="min-w-[60%] divide-y divide-gray-200">
           <thead>
             <tr>
@@ -32,6 +35,7 @@ export default function ProviderTable() {
             })}
           </tbody>
         </table>
-        </div>
-      )
+      </div>
+    </div>
+  )
 }

@@ -10,6 +10,7 @@
 - PostgreSQL
 
 ### Features
+- [🤣] Caution the design is pretty bad
 - [x] Table of Contents
 - [x] Partners, Invoices, Services, Customers pages
 - [x] Login page , Register page
