@@ -28,10 +28,10 @@ export interface Customer {
 }
 export interface Service {
     id: number;
-    name: string;
-    description: string;
-    quantity: number;
-    price_tax: number;
+    ServiceName: string;
+    ServiceDescription: string;
+    ServiceQuantity: number;
+    ServicePriceTax: number;
 
 }
 export interface Provider {
@@ -49,6 +49,8 @@ export interface Invoice {
     id: number;
     user: User;
     invoiceDate: string;
+    invoiceServiceDate: string;
+    invoiceDueDate: string;
     invoiceNumber: string;
     invoiceAmount: string;
     invoiceStatus: InvoiceStatus;

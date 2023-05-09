@@ -20,10 +20,10 @@ const customer1: Customer = {
 
 const service1: Service = {
   id: 1,
-  name: "Web Design",
-  description: "Custom website design and development",
-  price_tax: 1000,
-  quantity: 1,
+  ServiceName: "Web Design",
+  ServiceDescription: "Custom website design and development",
+  ServicePriceTax: 1000,
+  ServiceQuantity: 1,
 };
 
 const provider1: Provider = {
@@ -56,6 +56,8 @@ const invoice1: Invoice = {
   id: 1,
   user: user1,
   invoiceDate: "2025-01-01",
+  invoiceDueDate: "2025-01-31",
+  invoiceServiceDate: "2025-01-01",
   invoiceNumber: "INV-001",
   invoiceAmount: "$1000.00",
   invoiceStatus: InvoiceStatus.PAID,
@@ -70,6 +72,8 @@ const invoice2: Invoice = {
   id: 2,
   user: user1,
   invoiceDate: "2022-01-01",
+  invoiceDueDate: "2022-02-01",
+  invoiceServiceDate: "2022-01-01",
   invoiceNumber: "INV-002",
   invoiceAmount: "$1000.00",
   invoiceStatus: InvoiceStatus.UNPAID,
