@@ -1,34 +1,44 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "@/db/client";
+import mysql, { RowDataPacket } from "mysql2/promise";
 import bcrypt from "bcrypt";
 
 
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<login_response>
+  res: NextApiResponse
 ) {
-
-  const { username, password } = req.body;
-  console.log(username, password);
-  const user = await prisma.user.findUnique({
-    where: {
-      username: username
-    }
+  if (req.method != "POST") {
+    return res.status(405).json({ message: "Method not allowed" });
+  };
+  let { name, password } = req.body;
+  if (!name || !password) {
+    return res.status(400).json({ error: "Missing fields" });
+  }
+  const dbconnection = await mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'webinvoicer'
   });
-  if (!user) {
-    return res.status(400).json({ error: "User not found" });
+  const [nameRows, fields] = await dbconnection.execute("SELECT * FROM User WHERE name = ?", [name]);
+  if (Array.isArray(nameRows) && nameRows.length > 0) {
+    // console.log(nameRows[0].password); // This gets the hashed password now you should compare it with the password from the request
+    let hashCheck = await bcrypt.compare(password, nameRows[0].password);
+    dbconnection.end();
+    if (!hashCheck) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+    if (!hashCheck) {
+      return res.status(401).json({ error: "Unauthorized" });
+    } else {
+
+      delete nameRows[0].password;
+      return res.status(200).json({ message: nameRows[0] });
+
+    }
+
   }
-  //Bcrypt it back to the original password
-  let decrypted = user.password = await bcrypt.hash(password, 10);
-  if (!decrypted) {
-    return res.status(500).json({ error: "Internal server error" });
-  }
-  if (decrypted != user.password) {
-    return res.status(400).json({ error: "Incorrect password" });
-  }
-  console.log(user);
-  //For now just return the user and all of its data
-  return res.status(200).json({ user: user });
+  dbconnection.end();
 }

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoginModal from "@/components/home/LoginModal";
 import RegisterModal from "@/components/home/RegisterModal";
 import { ToastContainer } from "react-toastify";

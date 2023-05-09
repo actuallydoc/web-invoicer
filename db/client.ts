@@ -1,11 +1,14 @@
-import { PrismaClient } from '@prisma/client'
+import mysql from 'mysql2/promise';
 
-const globalForPrisma = global as unknown as { prisma: PrismaClient }
 
-export const prisma =
-    globalForPrisma.prisma ||
-    new PrismaClient({
-        log: ['query'],
-    })
+export async function dbconnecton() {
+    await mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: 'root',
+        database: 'webinvoicer'
+    });
+}
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+//Export it as default
+export default dbconnecton;
