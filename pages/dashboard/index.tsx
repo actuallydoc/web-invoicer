@@ -51,7 +51,7 @@ const Index = () => {
     //Edit for invoice
     const [invoiceEdit, setInvoiceEdit] = useState(false);
     //Temp data for the invoice
-    const [invoiceTemp, setInvoiceTemp] = useState<Invoice | undefined>();
+    const [invoiceTemp, setInvoiceTemp] = useState<Invoice>({} as Invoice);
     //Edit for customer
     const [customerEdit, setCustomerEdit] = useState(false);
     //Temp data for the customer

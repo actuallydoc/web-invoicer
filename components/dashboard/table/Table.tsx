@@ -7,7 +7,7 @@ import { Invoice } from '@/pages/dashboard/types';
 
 
 
-export default function Table({InvoiceDataCallBack, InvoiceDataState,toggleInvoiceModal,InvoiceModalState,datepickerFromState, datepickerToState,datepickerFrom, datepickerTo, invoiceState, providerState, serviceState, customerState}: {InvoiceDataCallBack: React.Dispatch<React.SetStateAction<Invoice | undefined>>, InvoiceDataState: Invoice | undefined,toggleInvoiceModal: React.Dispatch<React.SetStateAction<boolean>>, InvoiceModalState: boolean,datepickerFromState: string, datepickerToState: string,datepickerFrom: React.Dispatch<React.SetStateAction<string>> ,datepickerTo:React.Dispatch<React.SetStateAction<string>>,  invoiceState: boolean, providerState:boolean, serviceState: boolean, customerState: boolean}) {
+export default function Table({InvoiceDataCallBack, InvoiceDataState,toggleInvoiceModal,InvoiceModalState,datepickerFromState, datepickerToState,datepickerFrom, datepickerTo, invoiceState, providerState, serviceState, customerState}: {InvoiceDataCallBack: React.Dispatch<React.SetStateAction<Invoice>>, InvoiceDataState: Invoice | undefined,toggleInvoiceModal: React.Dispatch<React.SetStateAction<boolean>>, InvoiceModalState: boolean,datepickerFromState: string, datepickerToState: string,datepickerFrom: React.Dispatch<React.SetStateAction<string>> ,datepickerTo:React.Dispatch<React.SetStateAction<string>>,  invoiceState: boolean, providerState:boolean, serviceState: boolean, customerState: boolean}) {
   useEffect(() => {
     //!Todo - Check if user is logged in
     //!Todo - Check for user data and fetch into a table

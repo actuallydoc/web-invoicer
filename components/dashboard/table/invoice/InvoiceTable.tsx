@@ -8,13 +8,14 @@ export enum InvoiceStatus {
 const InvoiceTableHeaderNames = ['Invoice Date', 'Invoice Number', 'Invoice Amount', 'Invoice Status', "Provider", "Customer"]; //This stays here
 const customer1: Customer = {
   id: 1,
-  name: "John Doe",
-  email: "john.doe@example.com",
-  phone: "+1 555-555-5555",
-  address: "123 Main St",
-  city: "New York",
-  country: "USA",
-  postalCode: "10001",
+  CustomerName: "John Doe",
+  CustomerEmail: "john.doe@example.com",
+  CustomerPhone: "+1 555-555-5555",
+  CustomerAddress: "123 Main St",
+  CustomerCity: "New York",
+  CustomerCountry: "USA",
+  CustomerPostalCode: "10001",
+  CustomerTaxID: "123456789",
 };
 
 const service1: Service = {
@@ -22,17 +23,18 @@ const service1: Service = {
   name: "Web Design",
   description: "Custom website design and development",
   price_tax: 1000,
+  quantity: 1,
 };
 
 const provider1: Provider = {
   id: 1,
-  name: "Acme Web Solutions",
-  email: "contact@acmewebsolutions.com",
-  phone: "+1 555-555-5555",
-  address: "456 Broadway",
-  city: "New York",
-  country: "USA",
-  postalCode: "10001",
+  ProviderName: "Acme Web Solutions",
+  ProviderEmail: "contact@acmewebsolutions.com",
+  ProviderPhone: "+1 555-555-5555",
+  ProviderAddress: "456 Broadway",
+  ProviderCity: "New York",
+  ProviderCountry: "USA",
+  ProviderPostalCode: "10001",
   services: [service1],
 };
 
@@ -70,7 +72,7 @@ const invoice2: Invoice = {
   invoiceDate: "2022-01-01",
   invoiceNumber: "INV-002",
   invoiceAmount: "$1000.00",
-  invoiceStatus: InvoiceStatus.PAID,
+  invoiceStatus: InvoiceStatus.UNPAID,
   provider: provider1,
   customer: customer1,
   services: [service1],
@@ -82,7 +84,7 @@ let TableDataRows: Invoice[] = [
   invoice1, invoice2
 ]
 let temp: any[] = [];
-export default function InvoiceTable({ InvoiceDataState, IvoiceDataCallBack, toggleInvoiceModal, InvoiceModalState, datepickerFromState, datepickerToState, datepickerFrom, datepickerTo }: { IvoiceDataCallBack: React.Dispatch<React.SetStateAction<Invoice | undefined>>, InvoiceDataState: Invoice | undefined, toggleInvoiceModal: React.Dispatch<React.SetStateAction<boolean>>, InvoiceModalState: boolean, datepickerFromState: string, datepickerToState: string, datepickerFrom: React.Dispatch<React.SetStateAction<string>>, datepickerTo: React.Dispatch<React.SetStateAction<string>> }) {
+export default function InvoiceTable({ InvoiceDataState, IvoiceDataCallBack, toggleInvoiceModal, InvoiceModalState, datepickerFromState, datepickerToState, datepickerFrom, datepickerTo }: { IvoiceDataCallBack: React.Dispatch<React.SetStateAction<Invoice>>, InvoiceDataState: Invoice | undefined, toggleInvoiceModal: React.Dispatch<React.SetStateAction<boolean>>, InvoiceModalState: boolean, datepickerFromState: string, datepickerToState: string, datepickerFrom: React.Dispatch<React.SetStateAction<string>>, datepickerTo: React.Dispatch<React.SetStateAction<string>> }) {
 
   const [tableData, setTableData] = useState<Invoice[]>(TableDataRows);
   const [filteredData, setFilteredData] = useState<Invoice[]>(TableDataRows);
@@ -151,8 +153,8 @@ export default function InvoiceTable({ InvoiceDataState, IvoiceDataCallBack, tog
       <td onClick={() => handleModalEdit(rowData)} className="px-6 py-4 whitespace-nowrap">{rowData.invoiceNumber}</td>
       <td onClick={() => handleModalEdit(rowData)} className="px-6 py-4 whitespace-nowrap">{rowData.invoiceAmount}</td>
       <td onClick={() => handleModalEdit(rowData)} className="px-6 py-4 whitespace-nowrap">{rowData.invoiceStatus}</td>
-      <td onClick={() => handleModalEdit(rowData)} className="px-6 py-4 whitespace-nowrap">{rowData.provider.name}</td>
-      <td onClick={() => handleModalEdit(rowData)} className="px-6 py-4 whitespace-nowrap">{rowData.customer.name}</td>
+      <td onClick={() => handleModalEdit(rowData)} className="px-6 py-4 whitespace-nowrap">{rowData.provider.ProviderName}</td>
+      <td onClick={() => handleModalEdit(rowData)} className="px-6 py-4 whitespace-nowrap">{rowData.customer.CustomerName}</td>
     </tr>
   )
 })}
