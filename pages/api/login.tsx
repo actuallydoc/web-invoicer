@@ -2,13 +2,16 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import mysql, { RowDataPacket } from "mysql2/promise";
 import bcrypt from "bcrypt";
-
+import middleware from "../middleware"
 
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+
+  middleware(req);
+
   if (req.method != "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   };

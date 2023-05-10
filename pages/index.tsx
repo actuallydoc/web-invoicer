@@ -5,10 +5,11 @@ import RegisterModal from "@/components/home/RegisterModal";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "@/components/footer/Footer";
+import { useSession, signIn, signOut } from "next-auth/react";
 export default function Home() {
   const [login, setLogin] = useState(false);
   const [register, setRegister] = useState(false);
-
+  const { data: session } = useSession();
   const handleLoginBtn = () => {
     setLogin(!login);
     console.log(login);
@@ -32,20 +33,6 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={" text-black flex flex-col h-screen justify-between"}>
-        {login && (
-          <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10">
-            <div className="flex h-screen w-screen justify-center items-center">
-              {login && <LoginModal cb={closeLogin} />}
-            </div>
-          </div>
-        )}
-        {register && (
-          <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10">
-            <div className="flex pb-10 h-screen w-screen justify-center items-center">
-              {register && <RegisterModal cb={closeRegister} />}
-            </div>
-          </div>
-        )}
         <div className="justify-center">
           <div className="box-border   p-4 border-b-2 text-center mb-3">
             <div>
@@ -61,31 +48,40 @@ export default function Home() {
           </div>
           <div className="flex space-x-5 justify-center">
             <div>
-              {!login && !register && (
+              {!session ? (
                 <button
-                  onClick={handleLoginBtn}
+                  onClick={signIn}
                   className={
                     "bg-blue-500   hover:transition-all hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   }
                 >
                   Prijava
                 </button>
-              )}
-            </div>
-
-            <div>
-              {!register && !login && (
-                <button
-                  onClick={handleRegisterBtn}
-                  className={
-                    "bg-blue-500 hover:bg-blue-700 hover:transition-all text-white font-bold py-2 px-4 rounded"
-                  }
-                >
-                  Registracija
-                </button>
+              ) : (
+                <div>
+                  <div className="">
+                    <div className="text-center">
+                      <img src={session.user.image} width={32} height={32} className="rounded-2xl" alt="" />
+                    </div>
+                    <div className="">
+                      <p className="text-xl">{session.user.name}</p>
+                    </div>
+                  </div>
+                  <div>
+                    <button
+                      onClick={signOut}
+                      className={
+                        "bg-blue-500   hover:transition-all hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      }
+                    >
+                      Odjava
+                    </button>
+                  </div>
+                </div>
               )}
             </div>
           </div>
+
         </div>
         <ToastContainer
           autoClose={1000}
@@ -100,7 +96,7 @@ export default function Home() {
             <Footer />
           </div>
         </div>
-      </main>
+      </main >
     </>
   );
 }

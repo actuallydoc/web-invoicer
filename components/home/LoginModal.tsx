@@ -9,7 +9,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 type FormSchemaType = z.infer<typeof loginSchema>;
 const loginSchema = z.object({
-  username: z.string({
+  name: z.string({
     invalid_type_error: "Napačen vnos"
   }).min(3, { message: "Uporabniško ime mora biti dolgo vsaj 3 mesta" }),
   password: z.string({
@@ -66,7 +66,7 @@ const LoginModal = ({ cb }: any) => {
   return (
     <form className={"box w-96 h-auto font-semibold bg-white rounded-lg drop-shadow-2xl"} onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <button className={"text-black font-bold p-2  rounded-lg hover:bg-slate-200 duration-200"} onClick={cb}>X</button>
+        <button className={"text-black font-bold p-3  rounded-lg hover:bg-slate-200 duration-200"} onClick={cb}>X</button>
       </div>
       <div className="text-center drop-shadow-2xl overflow-hidden">
 
@@ -77,9 +77,9 @@ const LoginModal = ({ cb }: any) => {
             <label className={"block"}>
               <span>Uporabniško ime</span>
               <input disabled={isSubmitting} className={"block border  font-normal text-lg px-4 py-3 mt-2 rounded-lg border-gray-200 focus:bg-white text-gray" +
-                "focus:border-blue-400 focus:ring-0 outline-none w-full disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"} type={"text"} {...register('username')} />
+                "focus:border-blue-400 focus:ring-0 outline-none w-full disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"} type={"text"} {...register('name')} />
             </label>
-            {errors.username && <p className={"text-red-500 text-sm"}>{errors.username.message}</p>}
+            {errors.name && <p className={"text-red-500 text-sm"}>{errors.name.message}</p>}
           </div>
           <div>
             <label className={"block"}>
