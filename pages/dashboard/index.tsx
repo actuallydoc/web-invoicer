@@ -63,7 +63,6 @@ const Index = () => {
     //Edit for customer
     const [customerEdit, setCustomerEdit] = useState(false);
     //Temp data for the customer
-
     const handleCreateInvoice = () => {
         console.log("Create invoice button clicked");
         setInvoiceCreateModal(true);
@@ -73,20 +72,27 @@ const Index = () => {
         console.log("Create customer button clicked");
         setCreateCustomer(true);
     };
-
     //This is for Adding a new invoice
     const handleCreateProvider = () => {
         console.log("Create company button clicked");
         setCreateProvider(true);
     };
-
     //This is for Editing an invoice
     const handleOpenFab = () => {
         setShowButtons(!showButtons);
     };
+    useEffect(() => {
+        if (status === "authenticated") {
+            console.log("Session is authenticated");
+            console.log(session);
 
+        } else {
+
+        }
+
+    }, []);
     if (!session) {
-        console.log("No session");
+
     } else if (status === "authenticated") {
         return (
             <div>
@@ -180,6 +186,7 @@ export default Index;
 
 export const getServerSideProps: GetServerSideProps = async (context: GetSessionParams | undefined) => {
     const session = await getSession(context);
+    //Maybe fetch the user data here idk
     if (!session) {
         return {
             redirect: {

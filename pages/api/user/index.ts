@@ -3,14 +3,14 @@ import mysql from 'mysql2/promise';
 
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<login_response>
+    res: NextApiResponse
 ) {
-    const { method } = req;
-
+    const { method, data } = req;
+    console.log("session", data.session);
     if (!(method === "GET")) {
         return res.status(400).json({ message: "Only GET requests allowed" });
     }
 
-    return res.status(200).json({ token: "Create customer endpoint" });
+    return res.status(200).json({ token: "Get user data endpoint" });
 
 }
