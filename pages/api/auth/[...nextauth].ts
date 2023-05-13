@@ -11,8 +11,8 @@ export default NextAuth({
         //Just add providers here if you need more!
     ],
     adapter: SupabaseAdapter({
-        url: process.env.NEXT_SUPABASE_URL as string,
-        secret: process.env.NEXT_SUPABASE_SERVICE_KEY as string,
+        url: process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+        secret: process.env.NEXT_PUBLIC_SUPABASE_SERVICE_KEY as string,
     }),
     secret: process.env.JWT_SECRET,
     callbacks: {

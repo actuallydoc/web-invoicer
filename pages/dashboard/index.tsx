@@ -20,6 +20,9 @@ import { PostgrestError } from '@supabase/supabase-js';
 import CreateServiceModal from '@/components/dashboard/serviceModal/CreateServiceModal';
 
 const Index = () => {
+
+    //!TODO Refetch callback for the table 
+
     const [customers, setCustomers] = useState<Customer[]>([]);
     const [invoices, setInvoices] = useState<Invoice[]>([]);
     const [providers, setProviders] = useState<Provider[]>([]);
