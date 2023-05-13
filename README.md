@@ -3,11 +3,12 @@
 
 ### Frameworks used in the project
 - Next.js
-- React.js - React Hooks, React-Query
+- React.js - React Hooks,
 - TailwindCSS
 - TypeScript
 - Prisma
-- PostgreSQL
+- Supabase
+- NextAuth
 
 ### Features
 - [🤣] Caution the design is pretty bad
@@ -15,15 +16,13 @@
 - [x] Partners, Invoices, Services, Customers pages
 - [x] Login page , Register page
 - [x] Fab buttons to edit , create new data
+- [x] Database on supabase
+- [x] Custom data creation (Services, Partners, Customers) (Only invoices are not working right now)
 ### Incoming features
 
-- Database
-- JWT authentication
-- Custom data creation (Services, Partners, Invoices, Customers)
 - Custom Invoice Templates
 - PDF Generation
-- User profile
-- Settings page
+
 ![alt text](https://i.imgur.com/gt0qXYT.png)
 ![alt text](https://i.imgur.com/SikF6qu.png)
 ![alt test](https://i.imgur.com/LOgG69V.png)
