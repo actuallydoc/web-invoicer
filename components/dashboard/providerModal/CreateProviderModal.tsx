@@ -1,10 +1,12 @@
 import Tooltip from '@mui/material/Tooltip'
-import React from 'react'
+import React, { useEffect } from 'react'
 import CheckIcon from '@mui/icons-material/Check';
-import { Provider } from '@/pages/dashboard/types'
+import { useSession, getSession, GetSessionParams } from 'next-auth/react';
+import { Provider } from '@/types/database/types'
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import RemoveIcon from '@mui/icons-material/Remove';
-export default function CreateProviderModal({ isModalOpen, toggleModal }: { isModalOpen: boolean, toggleModal: React.Dispatch<React.SetStateAction<boolean>> }) {
+import supabase from "@/db/client"
+export default function CreateProviderModal({ userId, isModalOpen, toggleModal }: { userId: string | null, isModalOpen: boolean, toggleModal: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [isSignature, setIsSignature] = React.useState<boolean>(false)
     const [isImage, setIsImage] = React.useState<string>()
     const [createdProvider, setCreatedProvider] = React.useState<Provider>({
@@ -15,8 +17,8 @@ export default function CreateProviderModal({ isModalOpen, toggleModal }: { isMo
         ProviderCountry: '',
         ProviderCity: '',
         ProviderPostalCode: '',
-        id: 0,
         Signature: undefined,
+        id: undefined,
     })
     const handleCloseModal = () => {
         toggleModal(false)
@@ -68,11 +70,39 @@ export default function CreateProviderModal({ isModalOpen, toggleModal }: { isMo
         setIsSignature(true)
         createdProvider.Signature = e.target.result
     }
+    const { data: session, status } = useSession({ required: true });
     const handleCreateProvider = () => {
         console.log(createdProvider)
-        //!TODO Create provider in the database and refresh the table and refetch
+        if (status === 'authenticated' && session && userId) {
+            supabase.from('providers').insert([
+                {
+                    ProviderName: createdProvider.ProviderName,
+                    ProviderAddress: createdProvider.ProviderAddress,
+                    ProviderPhone: createdProvider.ProviderPhone,
+                    ProviderEmail: createdProvider.ProviderEmail,
+                    ProviderCountry: createdProvider.ProviderCountry,
+                    ProviderCity: createdProvider.ProviderCity,
+                    ProviderPostalCode: createdProvider.ProviderPostalCode,
+                    Signature: createdProvider.Signature,
+                    user_id: userId
+                }]).then(({ data, error }) => {
+                    if (error) {
+                        console.log(error)
+                    }
+                    else {
+                        console.log(data)
+                    }
+                })
+        }
         toggleModal(false)
     }
+
+    useEffect(() => {
+        if (status === "authenticated" && session) {
+            console.log("Session is authenticated");
+        }
+    }, [])
+
     return (
         <> {isModalOpen && (
             <div className={`fixed z-10 inset-0 overflow-y-auto `}>

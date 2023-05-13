@@ -1,4 +1,4 @@
-import { Invoice, InvoiceStatus, Service } from '@/pages/dashboard/types'
+import { Invoice, InvoiceStatus, Service } from '@/types/database/types'
 import Tooltip from '@mui/material/Tooltip'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { jsPDF } from 'jspdf'

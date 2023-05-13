@@ -1,3 +1,4 @@
+import { Service } from '@/types/database/types';
 import React from 'react'
 const ServiceHeaderNames = ['Name', 'Description', 'Price'];
 
@@ -7,7 +8,7 @@ const ServiceTableDataRows = [
   ['test', "towing", '$100'],
 ]
 
-export default function ServiceTable() {
+export default function ServiceTable({ services }: { services: Service[] | null }) {
   return (
     <div>
       <div className='flex-col bg-blue-500 text-black py-2  px-4 rounded'></div>
@@ -24,17 +25,16 @@ export default function ServiceTable() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {ServiceTableDataRows.map((rowData, index) => {
+            {services?.map((service) => {
               return (
-                <tr key={index} className="bg-white hover:scale-105 duration-150 space-y-3 cursor-pointer">
-                  {rowData.map((cellData, index) => {
-                    return (
-                      <td key={index} className="px-6 py-4 whitespace-nowrap">{cellData}</td>
-                    )
-                  })}
+                <tr key={service.id} className='text-black'>
+                  <td className="px-6 py-4 whitespace-nowrap">{service.ServiceName}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{service.ServiceDescription}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{service.ServicePriceTax}</td>
                 </tr>
               )
-            })}
+            })
+            }
           </tbody>
         </table>
       </div>

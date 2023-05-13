@@ -17,7 +17,7 @@ export interface User {
     providers: Provider[];
 }
 export interface Customer {
-    id: number;
+    id: number | undefined;
     CustomerName: string;
     CustomerEmail: string;
     CustomerPhone: string;
@@ -28,7 +28,7 @@ export interface Customer {
     CustomerTaxID: string | null;
 }
 export interface Service {
-    id: number;
+    id: number | undefined;
     ServiceName: string;
     ServiceDescription: string;
     ServiceQuantity: number;
@@ -36,7 +36,7 @@ export interface Service {
 
 }
 export interface Provider {
-    id: number;
+    id: number | undefined;
     ProviderName: string;
     ProviderEmail: string;
     ProviderPhone: string;
@@ -48,7 +48,7 @@ export interface Provider {
     // services: Service[];
 }
 export interface Invoice {
-    id: number;
+    id: number | undefined;
     user: User;
     invoiceDate: string;
     invoiceServiceDate: string;
@@ -59,6 +59,6 @@ export interface Invoice {
     provider: Provider;
     customer: Customer;
     services: Service[];
-    vat_rate: number;
-    price_tax: number;
+    vatRate: number;
+    priceVat: number;
 }

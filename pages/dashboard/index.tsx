@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Navbar from "@/components/dashboard/navbar/Navbar";
 import Footer from '@/components/footer/Footer';
 import Table from '@/components/dashboard/table/Table';
-import { User, Customer, Invoice, Provider, Service } from "../dashboard/types"
+import { User, Customer, Invoice, Provider, Service } from "../../types/database/types"
 import Fab from '@mui/material/Fab';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import InvoiceModal from '@/components/dashboard/invoiceModal/InvoiceModal';
@@ -13,27 +13,13 @@ import InvoiceCreateModal from '@/components/dashboard/invoiceModal/InvoiceCreat
 import PersonIcon from '@mui/icons-material/Person';
 import CreateProviderModal from '@/components/dashboard/providerModal/CreateProviderModal';
 import CreateCustomerModal from '@/components/dashboard/customerModal/CreateCustomerModal';
-import axios from 'axios';
 import { useSession, getSession, GetSessionParams } from 'next-auth/react';
+import supabase from "@/db/client"
 import { GetServerSideProps } from 'next';
+import { PostgrestError } from '@supabase/supabase-js';
+import CreateServiceModal from '@/components/dashboard/serviceModal/CreateServiceModal';
 
 const Index = () => {
-    //TODO - Fetch user data from database and set it to user state also for the other tables
-    const [user, setUser] = useState<User>({
-        address: "",
-        city: "",
-        country: "",
-        email: "",
-        customers: [],
-        invoices: [],
-        providers: [],
-        services: [],
-        name: '',
-        phone: "",
-        postalCode: "",
-    });
-    const containerRef = useRef<HTMLDivElement>(null);
-    //Data for the tables will fetch from the database through api and react-query
     const [customers, setCustomers] = useState<Customer[]>([]);
     const [invoices, setInvoices] = useState<Invoice[]>([]);
     const [providers, setProviders] = useState<Provider[]>([]);
@@ -41,14 +27,12 @@ const Index = () => {
     //Date stuff
     const [dateFrom, setDateFrom] = useState('');
     const [dateTo, setDateTo] = useState('');
-    //NextAuth stuff
-    const { data: session, status } = useSession({ required: true });
-
     //Modal stuff
     const [invoiceCreateModal, setInvoiceCreateModal] = useState(false);
     const [invoiceModal, setInvoiceModal] = useState(false);
     const [createProvider, setCreateProvider] = useState(false);
     const [createCustomer, setCreateCustomer] = useState(false);
+    const [createService, setCreateService] = useState(false);
     //Button state and navbar state
     const [showButtons, setShowButtons] = useState(false);
     const [profile, setProfile] = useState(false);
@@ -77,23 +61,78 @@ const Index = () => {
         console.log("Create company button clicked");
         setCreateProvider(true);
     };
+    const handleCreateService = () => {
+        console.log("Create service button clicked");
+        setCreateService(true);
+    };
     //This is for Editing an invoice
     const handleOpenFab = () => {
         setShowButtons(!showButtons);
     };
+    const { data: session, status } = useSession({ required: true });
+    const [userId, setUserId] = useState(null);
+    const [fetchError, setFetchError] = useState<PostgrestError>();
     useEffect(() => {
-        if (status === "authenticated") {
-            console.log("Session is authenticated");
+        const fetchUserId = async () => {
+            const { data, error } = await supabase.from('users').select('*').eq('email', session?.user?.email);
+            if (error) {
+                setFetchError(error);
+                return;
+            }
+            if (data) {
+                setUserId(data[0]?.id);
+                if (userId !== null) {
+                    fetchCustomers();
+                    fetchProviders();
+                    fetchServices();
+                }
+
+            };
+        };
+        const fetchServices = async () => {
+            console.log("Fetching services");
+            const { data, error } = await supabase.from('services').select('*').eq('user_id', userId);
+            if (error) {
+                setFetchError(error);
+                return;
+            }
+            if (data !== null) {
+                setServices(data as Service[]);
+            };
+        };
+        const fetchCustomers = async () => {
+            console.log("Fetching customers");
+            const { data, error } = await supabase.from('customers').select('*').eq('user_id', userId);
+            if (error) {
+                setFetchError(error);
+                return;
+            }
+            if (data !== null) {
+                setCustomers(data as Customer[]);
+            };
+        };
+
+        const fetchProviders = async () => {
+            console.log("Fetching providers");
+            console.log(userId)
+            const { data, error } = await supabase.from('providers').select('*').eq('user_id', userId);
+            if (error) {
+                setFetchError(error);
+                return;
+            }
+            if (data !== null) {
+                setProviders(data as Provider[]);
+            };
+        };
+        if (session?.user?.email !== undefined && status === "authenticated") {
             console.log(session);
-
-        } else {
-
+            fetchUserId();
         }
-
+        fetchUserId();
     }, []);
     if (!session) {
 
-    } else if (status === "authenticated") {
+    } else if (status === "authenticated" && session) {
         return (
             <div>
                 <header>
@@ -106,7 +145,7 @@ const Index = () => {
                     <div className=''>
                         {/* Fix the Width of the bg-slate-200 its basically too wide */}
                         <div className='flex flex-col items-center justify-center pt-5'>
-                            <Table InvoiceDataCallBack={setInvoiceTemp} InvoiceDataState={invoiceTemp} toggleInvoiceModal={setInvoiceModal} InvoiceModalState={invoiceModal} datepickerFromState={dateFrom} datepickerToState={dateTo} datepickerFrom={setDateFrom} datepickerTo={setDateTo} invoiceState={invoice} customerState={customer} providerState={provider} serviceState={service} />
+                            <Table services={services} customers={customers} providers={providers} InvoiceDataCallBack={setInvoiceTemp} InvoiceDataState={invoiceTemp} toggleInvoiceModal={setInvoiceModal} InvoiceModalState={invoiceModal} datepickerFromState={dateFrom} datepickerToState={dateTo} datepickerFrom={setDateFrom} datepickerTo={setDateTo} invoiceState={invoice} customerState={customer} providerState={provider} serviceState={service} />
                         </div>
                     </div>
 
@@ -117,8 +156,9 @@ const Index = () => {
                             </div>
                         ) : null}
                         {invoiceCreateModal ? <InvoiceCreateModal isModalOpen={invoiceCreateModal} toggleModal={setInvoiceCreateModal} /> : null}
-                        {createProvider ? <CreateProviderModal isModalOpen={createProvider} toggleModal={setCreateProvider} /> : null}
-                        {createCustomer ? <CreateCustomerModal isModalOpen={createCustomer} toggleModal={setCreateCustomer} /> : null}
+                        {createProvider ? <CreateProviderModal userId={userId} isModalOpen={createProvider} toggleModal={setCreateProvider} /> : null}
+                        {createCustomer ? <CreateCustomerModal userId={userId} isModalOpen={createCustomer} toggleModal={setCreateCustomer} /> : null}
+                        {createService ? <CreateServiceModal userId={userId} isModalOpen={createService} toggleModal={setCreateService} /> : null}
                         {/* Make something here for the button make it so u can have options to create services, customers , invoices, providers */}
                         <div className='flex space-x-5 fixed bottom-3 right-14'>
                             <div>
@@ -144,6 +184,13 @@ const Index = () => {
                                     <div>
                                         <Tooltip title="Create Provider" placement="left">
                                             <Fab onClick={handleCreateProvider} className="bg-slate-500" color="primary" aria-label="option 2">
+                                                <ApartmentIcon />
+                                            </Fab>
+                                        </Tooltip>
+                                    </div>
+                                    <div>
+                                        <Tooltip title="Create Service" placement="left">
+                                            <Fab onClick={handleCreateService} className="bg-slate-500" color="primary" aria-label="option 2">
                                                 <ApartmentIcon />
                                             </Fab>
                                         </Tooltip>

@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 const ProviderHeaderNames = ['Name', 'Address', 'City', 'Country', 'Phone', 'Email'];
-
+import supabase from "@/db/client"
+import { Provider } from '@/types/database/types';
 const ProviderTableDataRows = [
   ['Provider Joe', '123 Main Street', 'New York', 'USA', '1234567890', 'anpch@example.com'],
   ['Jane Doe', '123 Main Street', 'New York', 'USA', '1234567890', 'anpch@example.com'],
 ]
-export default function ProviderTable() {
+
+export default function ProviderTable({ providers }: { providers: Provider[] | null }) {
+
+  useEffect(() => {
+    console.log(providers)
+  }, []);
   return (
     <div>
       <div className='flex-col bg-blue-500 text-black py-2  px-4 rounded'></div>
@@ -22,17 +28,19 @@ export default function ProviderTable() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {ProviderTableDataRows.map((rowData, index) => {
+            {providers?.map((provider) => {
               return (
-                <tr key={index} className="bg-white hover:scale-105 duration-150 space-y-3 cursor-pointer">
-                  {rowData.map((cellData, index) => {
-                    return (
-                      <td key={index} className="px-6 py-4 whitespace-nowrap">{cellData}</td>
-                    )
-                  })}
+                <tr key={provider.id} className='text-black'>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">{provider.ProviderName}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm ">{provider.ProviderAddress}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm ">{provider.ProviderCity}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm ">{provider.ProviderCountry}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm ">{provider.ProviderPhone}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">{provider.ProviderEmail}</td>
                 </tr>
               )
-            })}
+            })
+            }
           </tbody>
         </table>
       </div>

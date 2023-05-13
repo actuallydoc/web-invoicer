@@ -1,14 +1,9 @@
-import mysql from 'mysql2/promise';
+import { createClient } from "@supabase/supabase-js";
+process.env.NEXT_SUPABASE_URL as string, process.env.NEXT_SUPABASE_SERVICE_KEY as string
 
+const supabaseUrl = process.env.NEXT_SUPABASE_URL as string;
+const supabaseKey = process.env.NEXT_SUPABASE_SERVICE_KEY as string;
 
-export async function dbconnecton() {
-    await mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'root',
-        database: 'webinvoicer'
-    });
-}
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-//Export it as default
-export default dbconnecton;
+export default supabase;

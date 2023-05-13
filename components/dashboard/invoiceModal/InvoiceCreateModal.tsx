@@ -1,4 +1,4 @@
-import { Invoice, InvoiceStatus, Service } from '@/pages/dashboard/types'
+import { Invoice, InvoiceStatus, Service } from '@/types/database/types'
 import Fab from '@mui/material/Fab'
 import Tooltip from '@mui/material/Tooltip'
 import React, { ChangeEvent, useState } from 'react'
@@ -16,8 +16,8 @@ export default function InvoiceCreateModal({ isModalOpen, toggleModal }: { isMod
     invoiceNumber: "",
     invoiceServiceDate: "",
     invoiceStatus: InvoiceStatus.DRAFT,
-    price_tax: 0,
-    vat_rate: 0,
+    priceVat: 0,
+    vatRate: 0,
     user: {
       address: "",
       city: "",

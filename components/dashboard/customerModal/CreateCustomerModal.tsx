@@ -1,9 +1,12 @@
-import { Customer } from '@/pages/dashboard/types'
+import { Customer } from '@/types/database/types'
 import Tooltip from '@mui/material/Tooltip'
 import React, { useEffect, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
-export default function CreateCustomerModal({ isModalOpen, toggleModal }: { isModalOpen: boolean, toggleModal: React.Dispatch<React.SetStateAction<boolean>> }) {
+import { useSession } from 'next-auth/react'
+import supabase from '@/db/client';
+export default function CreateCustomerModal({ userId, isModalOpen, toggleModal }: { isModalOpen: boolean, toggleModal: React.Dispatch<React.SetStateAction<boolean>>, userId: string | null }) {
+
     const [createCustomerData, setCreateCustomerData] = useState<Customer>({
         CustomerName: '',
         CustomerAddress: '',
@@ -13,7 +16,7 @@ export default function CreateCustomerModal({ isModalOpen, toggleModal }: { isMo
         CustomerPhone: '',
         CustomerPostalCode: '',
         CustomerTaxID: '',
-        id: 0,
+        id: undefined,
     })
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -23,11 +26,29 @@ export default function CreateCustomerModal({ isModalOpen, toggleModal }: { isMo
             [name]: value as typeof value,
         }));
     }
+    const { data: session } = useSession();
     const handleCreateCustomer = () => {
         console.log('create customer')
-        //!TODO Make a request to the backend and create a customer for the user and then close the modal
+        if (session && userId.length > 0) {
+            supabase.from('customers').insert([
+                {
+                    CustomerName: createCustomerData.CustomerName,
+                    CustomerAddress: createCustomerData.CustomerAddress,
+                    CustomerCity: createCustomerData.CustomerCity,
+                    CustomerCountry: createCustomerData.CustomerCountry,
+                    CustomerEmail: createCustomerData.CustomerEmail,
+                    CustomerPhone: createCustomerData.CustomerPhone,
+                    CustomerPostalCode: createCustomerData.CustomerPostalCode,
+                    CustomerTaxID: createCustomerData.CustomerTaxID,
+                    user_id: userId
+                },
+            ]).then((result) => {
+                console.log(result)
+            })
+        }
         toggleModal(false)
     }
+
     const handleCloseModal = () => {
         toggleModal(false)
     }

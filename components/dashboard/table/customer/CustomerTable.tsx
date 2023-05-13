@@ -1,5 +1,5 @@
-import React from 'react'
-
+import React, { useEffect } from 'react'
+import { Customer } from '@/types/database/types';
 const CustomerHeaderNames = ['Name', 'Address', 'City', 'Country', 'Phone', 'Email'];
 
 const CustomerTableDataRows = [
@@ -7,7 +7,11 @@ const CustomerTableDataRows = [
   ['Jane Doe', '123 Main Street', 'New York', 'USA', '1234567890', 'anpch@example.com'],
 ]
 
-export default function CustomerTable() {
+
+export default function CustomerTable({ customers }: { customers: Customer[] | null }) {
+  useEffect(() => {
+    console.log(customers)
+  }, []);
   return (
     <div>
       <div className='flex-col bg-blue-500 text-black py-2  px-4 rounded'></div>
@@ -24,17 +28,19 @@ export default function CustomerTable() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {CustomerTableDataRows.map((rowData, index) => {
+            {customers?.map((customer) => {
               return (
-                <tr key={index} className="bg-white hover:scale-105 duration-150 space-y-3 cursor-pointer">
-                  {rowData.map((cellData, index) => {
-                    return (
-                      <td key={index} className="px-6 py-4 whitespace-nowrap">{cellData}</td>
-                    )
-                  })}
+                <tr key={customer.id} className='text-black'>
+                  <td className="px-6 py-4 whitespace-nowrap">{customer.CustomerName}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{customer.CustomerAddress}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{customer.CustomerCity}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{customer.CustomerCountry}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{customer.CustomerPhone}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{customer.CustomerEmail}</td>
                 </tr>
               )
-            })}
+            })
+            }
           </tbody>
         </table>
       </div>
