@@ -1,7 +1,7 @@
 
 ## Web invoicing application
 
-- The app is accessable on [HERE](web-invoicer.vercel.app/)
+- The app is accessable on [HERE](https://web-invoicer.vercel.app/)
 ### Frameworks used in the project
 - Next.js
 - React.js - React Hooks,
