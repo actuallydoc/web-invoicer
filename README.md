@@ -1,6 +1,7 @@
 
 ## Web invoicing application
 
+- The app is accessable on [HERE](web-invoicer.vercel.app/)
 ### Frameworks used in the project
 - Next.js
 - React.js - React Hooks,
@@ -25,8 +26,8 @@
 
 ![alt text](https://i.imgur.com/gt0qXYT.png)
 ![alt text](https://i.imgur.com/SikF6qu.png)
-![alt test](https://i.imgur.com/LOgG69V.png)
-First, run the development server:
+
+<!-- First, run the development server:
 
 ```bash
 npm run dev
@@ -34,6 +35,6 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-```
+``` -->
 
-Open [http://localhost:3000](http://localhost:3000) and your browser will display the app
+<!-- Open [http://localhost:3000](http://localhost:3000) and your browser will display the app -->
