@@ -6,7 +6,7 @@ import { Provider } from '@/types/database/types'
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import RemoveIcon from '@mui/icons-material/Remove';
 import supabase from "@/db/client"
-export default function CreateProviderModal({ userId, isModalOpen, toggleModal }: { userId: string | null, isModalOpen: boolean, toggleModal: React.Dispatch<React.SetStateAction<boolean>> }) {
+export default function CreateProviderModal({ refetchState, refetchCallback, userId, isModalOpen, toggleModal }: { refetchState: boolean, refetchCallback: React.Dispatch<React.SetStateAction<boolean>>, userId: string | null, isModalOpen: boolean, toggleModal: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [isSignature, setIsSignature] = React.useState<boolean>(false)
     const [isImage, setIsImage] = React.useState<string>()
     const [createdProvider, setCreatedProvider] = React.useState<Provider>({
@@ -94,6 +94,7 @@ export default function CreateProviderModal({ userId, isModalOpen, toggleModal }
                     }
                 })
         }
+        refetchCallback(!refetchState);
         toggleModal(false)
     }
 

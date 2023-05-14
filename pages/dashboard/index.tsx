@@ -48,8 +48,8 @@ const Index = ({ data, session }: { session: Session, data: string | null | any 
     const [customer, setCustomer] = useState(false);
     const [provider, setProvider] = useState(false);
     const [service, setService] = useState(false);
-    //Edit for invoice
-    // const [invoiceEdit, setInvoiceEdit] = useState(false);
+    //Refetch state
+    const [refetch, setRefetch] = useState(false);
     //Temp data for the invoice
     const [invoiceTemp, setInvoiceTemp] = useState<Invoice>({} as Invoice);
     //Edit for customer
@@ -59,6 +59,54 @@ const Index = ({ data, session }: { session: Session, data: string | null | any 
     const [serviceTemp, setServiceTemp] = useState<Service>({} as Service);
     const [providerEdit, setProviderEdit] = useState(false);
     const [providerTemp, setProviderTemp] = useState<Provider>({} as Provider);
+
+    //Supabase stuff 
+    const fetchUserId = async () => {
+        if (data) {
+            setUserId(data[0]?.id);
+            if (userId !== null) {
+                fetchCustomers();
+                fetchProviders();
+                fetchServices();
+            }
+
+        };
+    };
+    const fetchServices = async () => {
+        console.log("Fetching services");
+        const { data, error } = await supabase.from('services').select('*').eq('user_id', userId);
+        if (error) {
+            setFetchError(error);
+            return;
+        }
+        if (data !== null) {
+            setServices(data as Service[]);
+        };
+    };
+    const fetchCustomers = async () => {
+        console.log("Fetching customers");
+        const { data, error } = await supabase.from('customers').select('*').eq('user_id', userId);
+        if (error) {
+            setFetchError(error);
+            return;
+        }
+        if (data !== null) {
+            setCustomers(data as Customer[]);
+        };
+    };
+
+    const fetchProviders = async () => {
+        console.log("Fetching providers");
+        console.log(userId)
+        const { data, error } = await supabase.from('providers').select('*').eq('user_id', userId);
+        if (error) {
+            setFetchError(error);
+            return;
+        }
+        if (data !== null) {
+            setProviders(data as Provider[]);
+        };
+    };
     //Temp data for the customer
     const handleCreateInvoice = () => {
         console.log("Create invoice button clicked");
@@ -85,56 +133,15 @@ const Index = ({ data, session }: { session: Session, data: string | null | any 
     // const { data: session, status } = useSession({ required: true });
     const [userId, setUserId] = useState(data[0]?.id);
     useEffect(() => {
+        fetchUserId();
+    }, [refetch]);
+
+    useEffect(() => {
         setUserId(data[0]?.id);
     }, [userId]);
     const [fetchError, setFetchError] = useState<PostgrestError>();
     useEffect(() => {
-        const fetchUserId = async () => {
-            if (data) {
-                setUserId(data[0]?.id);
-                if (userId !== null) {
-                    fetchCustomers();
-                    fetchProviders();
-                    fetchServices();
-                }
 
-            };
-        };
-        const fetchServices = async () => {
-            console.log("Fetching services");
-            const { data, error } = await supabase.from('services').select('*').eq('user_id', userId);
-            if (error) {
-                setFetchError(error);
-                return;
-            }
-            if (data !== null) {
-                setServices(data as Service[]);
-            };
-        };
-        const fetchCustomers = async () => {
-            console.log("Fetching customers");
-            const { data, error } = await supabase.from('customers').select('*').eq('user_id', userId);
-            if (error) {
-                setFetchError(error);
-                return;
-            }
-            if (data !== null) {
-                setCustomers(data as Customer[]);
-            };
-        };
-
-        const fetchProviders = async () => {
-            console.log("Fetching providers");
-            console.log(userId)
-            const { data, error } = await supabase.from('providers').select('*').eq('user_id', userId);
-            if (error) {
-                setFetchError(error);
-                return;
-            }
-            if (data !== null) {
-                setProviders(data as Provider[]);
-            };
-        };
         if (session) {
             fetchUserId();
         }
@@ -169,19 +176,19 @@ const Index = ({ data, session }: { session: Session, data: string | null | any 
                             </div>
                         ) : null}
                         {customerEdit ? (<div>
-                            <EditCustomerModal customerDataCallback={setCustomerTemp} customerModalData={customerTemp} isModalOpen={customerEdit} toggleModal={setCustomerEdit} />
+                            <EditCustomerModal refetchCallback={setRefetch} refetchState={refetch} customerDataCallback={setCustomerTemp} customerModalData={customerTemp} isModalOpen={customerEdit} toggleModal={setCustomerEdit} />
                         </div>) : null}
                         {serviceEdit ? (<div>
-                            <EditServiceModal serviceDataCallback={setServiceTemp} serviceModalData={serviceTemp} isModalOpen={serviceEdit} toggleModal={setServiceEdit} />
+                            <EditServiceModal refetchCallback={setRefetch} refetchState={refetch} serviceDataCallback={setServiceTemp} serviceModalData={serviceTemp} isModalOpen={serviceEdit} toggleModal={setServiceEdit} />
                         </div>) : null}
                         {providerEdit ? (<div>
-                            <EditProviderModal providerDataCallback={setProviderTemp} providerModalState={providerTemp} isModalOpen={providerEdit} toggleModal={setProviderEdit} />
+                            <EditProviderModal refetchCallback={setRefetch} refetchState={refetch} providerDataCallback={setProviderTemp} providerModalState={providerTemp} isModalOpen={providerEdit} toggleModal={setProviderEdit} />
                         </div>) : null}
 
-                        {invoiceCreateModal ? <InvoiceCreateModal isModalOpen={invoiceCreateModal} toggleModal={setInvoiceCreateModal} /> : null}
-                        {createProvider ? <CreateProviderModal userId={userId} isModalOpen={createProvider} toggleModal={setCreateProvider} /> : null}
-                        {createCustomer ? <CreateCustomerModal userId={userId} isModalOpen={createCustomer} toggleModal={setCreateCustomer} /> : null}
-                        {createService ? <CreateServiceModal userId={userId} isModalOpen={createService} toggleModal={setCreateService} /> : null}
+                        {invoiceCreateModal ? <InvoiceCreateModal refetchCallback={setRefetch} refetchState={refetch} isModalOpen={invoiceCreateModal} toggleModal={setInvoiceCreateModal} /> : null}
+                        {createProvider ? <CreateProviderModal refetchCallback={setRefetch} refetchState={refetch} userId={userId} isModalOpen={createProvider} toggleModal={setCreateProvider} /> : null}
+                        {createCustomer ? <CreateCustomerModal refetchCallback={setRefetch} refetchState={refetch} userId={userId} isModalOpen={createCustomer} toggleModal={setCreateCustomer} /> : null}
+                        {createService ? <CreateServiceModal refetchCallback={setRefetch} refetchState={refetch} userId={userId} isModalOpen={createService} toggleModal={setCreateService} /> : null}
                         {/* Make something here for the button make it so u can have options to create services, customers , invoices, providers */}
                         <div className='flex space-x-5 fixed bottom-3 right-14'>
                             <div>

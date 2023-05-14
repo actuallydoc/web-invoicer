@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
 import { useSession } from 'next-auth/react'
 import supabase from '@/db/client';
-export default function CreateCustomerModal({ userId, isModalOpen, toggleModal }: { isModalOpen: boolean, toggleModal: React.Dispatch<React.SetStateAction<boolean>>, userId: string | null }) {
+export default function CreateCustomerModal({ refetchCallback, refetchState, userId, isModalOpen, toggleModal }: { refetchState: boolean, refetchCallback: React.Dispatch<React.SetStateAction<boolean>>, isModalOpen: boolean, toggleModal: React.Dispatch<React.SetStateAction<boolean>>, userId: string | null }) {
 
     const [createCustomerData, setCreateCustomerData] = useState<Customer>({
         CustomerName: '',
@@ -46,6 +46,7 @@ export default function CreateCustomerModal({ userId, isModalOpen, toggleModal }
                 console.log(result)
             })
         }
+        refetchCallback(!refetchState);
         toggleModal(false)
     }
 

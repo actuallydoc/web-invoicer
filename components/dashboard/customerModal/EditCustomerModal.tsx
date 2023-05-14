@@ -4,7 +4,8 @@ import React, { useEffect } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-export default function EditCustomerModal({ customerDataCallback, customerModalData, isModalOpen, toggleModal }: { customerModalData: Customer, isModalOpen: boolean, toggleModal: React.Dispatch<React.SetStateAction<boolean>>, customerDataCallback: React.Dispatch<React.SetStateAction<Customer>> }) {
+import supabase from "@/db/client"
+export default function EditCustomerModal({ refetchCallback, refetchState, customerDataCallback, customerModalData, isModalOpen, toggleModal }: { refetchState: boolean, refetchCallback: React.Dispatch<React.SetStateAction<boolean>>, customerModalData: Customer, isModalOpen: boolean, toggleModal: React.Dispatch<React.SetStateAction<boolean>>, customerDataCallback: React.Dispatch<React.SetStateAction<Customer>> }) {
 
     const [editCustomerData, setEditCustomerData] = React.useState<Customer>(customerModalData);
 
@@ -20,10 +21,56 @@ export default function EditCustomerModal({ customerDataCallback, customerModalD
     }
 
     const handleEditCustomer = () => {
-        console.log(editCustomerData);
+        const editCustomer = async () => {
+            const { data, error } = await supabase
+                .from('customers')
+                .update({
+                    CustomerName: editCustomerData.CustomerName,
+                    CustomerAddress: editCustomerData.CustomerAddress,
+                    CustomerPhone: editCustomerData.CustomerPhone,
+                    CustomerEmail: editCustomerData.CustomerEmail,
+                    CustomerCity: editCustomerData.CustomerCity,
+                    CustomerCountry: editCustomerData.CustomerCountry,
+                    CustomerPostalCode: editCustomerData.CustomerPostalCode,
+                    CustomerTaxID: editCustomerData.CustomerTaxID
+                })
+                .eq('id', editCustomerData.id)
+            if (error) {
+                return error;
+            }
+            else {
+                return data
+            }
+        }
+        editCustomer().then((data) => {
+            refetchCallback(!refetchState);
+            toggleModal(false);
+        }
+        ).catch((err) => {
+            console.log(err);
+        }
+        )
     }
     const handleDeleteCustomer = () => {
-        console.log(editCustomerData);
+        const deleteCustomer = async () => {
+            const { data, error } = await supabase
+                .from('customers')
+                .delete()
+                .eq('id', editCustomerData.id)
+            if (error) {
+                return error;
+            }
+            else {
+                return data
+            }
+        }
+        deleteCustomer().then((data) => {
+            refetchCallback(!refetchState);
+            toggleModal(false);
+        }
+        ).catch((err) => {
+            console.log(err);
+        });
     }
 
     return (

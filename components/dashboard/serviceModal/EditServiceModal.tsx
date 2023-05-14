@@ -3,7 +3,8 @@ import Tooltip from '@mui/material/Tooltip'
 import React from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-export default function EditServiceModal({ serviceDataCallback, serviceModalData, isModalOpen, toggleModal }: { serviceModalData: Service, isModalOpen: boolean, toggleModal: React.Dispatch<React.SetStateAction<boolean>>, serviceDataCallback: React.Dispatch<React.SetStateAction<Service>> }) {
+import supabase from "@/db/client"
+export default function EditServiceModal({ refetchCallback, refetchState, serviceDataCallback, serviceModalData, isModalOpen, toggleModal }: { refetchState: boolean, refetchCallback: React.Dispatch<React.SetStateAction<boolean>>, serviceModalData: Service, isModalOpen: boolean, toggleModal: React.Dispatch<React.SetStateAction<boolean>>, serviceDataCallback: React.Dispatch<React.SetStateAction<Service>> }) {
 
     const [editServiceData, setEditServiceData] = React.useState<Service>(serviceModalData);
 
@@ -12,10 +13,51 @@ export default function EditServiceModal({ serviceDataCallback, serviceModalData
     }
 
     const handleEditService = () => {
-        console.log(editServiceData);
+        const editService = async () => {
+            const { data, error } = await supabase
+                .from('services')
+                .update({
+                    ServiceName: editServiceData.ServiceName,
+                    ServiceDescription: editServiceData.ServiceDescription,
+                    ServiceQuantity: editServiceData.ServiceQuantity,
+                    ServicePriceTax: editServiceData.ServicePriceTax
+                })
+                .eq('id', editServiceData.id)
+            if (error) {
+                return error;
+            }
+            else {
+                return data
+            }
+        }
+        editService().then((data) => {
+            refetchCallback(!refetchState);
+            toggleModal(false);
+        }).catch((err) => {
+            console.log(err);
+        })
     }
     const handleDeleteService = () => {
-        console.log(editServiceData);
+        const deleteService = async () => {
+            const { data, error } = await supabase
+                .from('services')
+                .delete()
+                .eq('id', editServiceData.id)
+            if (error) {
+                return error;
+            }
+            else {
+                return data
+            }
+        }
+        deleteService().then((data) => {
+            refetchCallback(!refetchState);
+            toggleModal(false);
+        }
+        ).catch((err) => {
+            console.log(err);
+        }
+        )
     }
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target

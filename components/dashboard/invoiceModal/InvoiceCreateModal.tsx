@@ -4,7 +4,7 @@ import Tooltip from '@mui/material/Tooltip'
 import React, { ChangeEvent, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
-export default function InvoiceCreateModal({ isModalOpen, toggleModal }: { isModalOpen: boolean, toggleModal: React.Dispatch<React.SetStateAction<boolean>> }) {
+export default function InvoiceCreateModal({ refetchCallback, refetchState, isModalOpen, toggleModal }: { refetchState: boolean, refetchCallback: React.Dispatch<React.SetStateAction<boolean>>, isModalOpen: boolean, toggleModal: React.Dispatch<React.SetStateAction<boolean>> }) {
 
   //!TODO Make if the user has providers, customers and services then show them in the select fields and autofill the form so its much easier
 
@@ -140,6 +140,8 @@ export default function InvoiceCreateModal({ isModalOpen, toggleModal }: { isMod
   }
   const handleCreateInvoice = () => {
     console.log(createdInvoiceData)
+    toggleModal(false)
+    refetchCallback(!refetchState);
   }
   return (
     <>

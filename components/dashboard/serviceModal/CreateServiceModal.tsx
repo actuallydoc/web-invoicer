@@ -4,7 +4,7 @@ import { Service } from "@/types/database/types"
 import CheckIcon from '@mui/icons-material/Check';
 import { useSession } from 'next-auth/react';
 import supabase from '@/db/client'
-export default function CreateServiceModal({ userId, isModalOpen, toggleModal }: { userId: string | null, isModalOpen: boolean, toggleModal: React.Dispatch<React.SetStateAction<boolean>> }) {
+export default function CreateServiceModal({ refetchCallback, refetchState, userId, isModalOpen, toggleModal }: { refetchState: boolean, refetchCallback: React.Dispatch<React.SetStateAction<boolean>>, userId: string | null, isModalOpen: boolean, toggleModal: React.Dispatch<React.SetStateAction<boolean>> }) {
 
     const [createService, setCreateService] = React.useState<Service>({
         ServiceName: '',
@@ -34,6 +34,7 @@ export default function CreateServiceModal({ userId, isModalOpen, toggleModal }:
                 console.log(error)
             }
             else {
+                refetchCallback(!refetchState)
                 toggleModal(false)
             }
         }

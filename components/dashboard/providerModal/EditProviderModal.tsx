@@ -6,9 +6,8 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
 import supabase from "@/db/client"
-
 //!TODO Signature state stays the same when u remove the signature and reopen the modal!
-export default function EditProviderModal({ isModalOpen, providerDataCallback, providerModalState, toggleModal }: { isModalOpen: boolean, providerDataCallback: React.Dispatch<React.SetStateAction<Provider>>, toggleModal: React.Dispatch<React.SetStateAction<boolean>>, providerModalState: Provider }) {
+export default function EditProviderModal({ refetchCallback, refetchState, isModalOpen, providerDataCallback, providerModalState, toggleModal }: { refetchState: boolean, refetchCallback: React.Dispatch<React.SetStateAction<boolean>>, isModalOpen: boolean, providerDataCallback: React.Dispatch<React.SetStateAction<Provider>>, toggleModal: React.Dispatch<React.SetStateAction<boolean>>, providerModalState: Provider }) {
     // const [isSignature, setIsSignature] = React.useState<boolean>(false)
     const [isImage, setIsImage] = React.useState<string | null>(providerModalState?.Signature as string)
     const [editProvider, setEditProvider] = React.useState<Provider>(providerModalState);
@@ -34,8 +33,11 @@ export default function EditProviderModal({ isModalOpen, providerDataCallback, p
         // Check if the file has a valid extension
         //!TODO Check if the file name is empty? can cause crash idk?.
         let file = files[0];
+        if (file.name === null || file.name === undefined) {
+            return
+        }
         const validExtensions = ["jpg", "jpeg", "png"];
-        const extension = files[0].name.split(".").pop().toLowerCase(); //Get rid of this  idk xd
+        const extension = file.name.split(".").pop().toLowerCase(); //Get rid of this  idk xd
         if (!validExtensions.includes(extension)) {
             console.log("Invalid file type. Please select a JPG or PNG image.");
             return;
@@ -83,13 +85,32 @@ export default function EditProviderModal({ isModalOpen, providerDataCallback, p
             }
         }
         updateProvider().then(() => {
+            refetchCallback(!refetchState);
             toggleModal(false)
+
         }).catch((err) => {
             console.log(err);
         })
     }
     const handleDeleteProvider = () => {
-        console.log(editProvider);
+        const deleteProvider = async () => {
+            const { data, error } = await supabase.from('providers').delete().eq('id', editProvider.id);
+            if (error) {
+
+                return error;
+            }
+            if (data) {
+                console.log(data);
+
+                return data;
+            }
+        }
+        deleteProvider().then(() => {
+            refetchCallback(!refetchState);
+            toggleModal(false)
+        }).catch((err) => {
+            console.log(err);
+        })
     }
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
