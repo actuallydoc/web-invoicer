@@ -136,7 +136,7 @@ export default function EditCustomerModal({ refetchCallback, refetchState, custo
                                                     <input onChange={handleInputChange} name='CustomerPostalCode' type='text' value={editCustomerData?.CustomerPostalCode} className="flex p-1 justify-center align-middle bg-white border rounded-md text-black px-3" />
                                                 </Tooltip>
                                                 <Tooltip placement="top" title="Customer Tax ID" arrow>
-                                                    <input onChange={handleInputChange} name='CustomerTaxID' type='text' value={editCustomerData?.CustomerTaxID} className="flex p-1 justify-center align-middle bg-white border rounded-md text-black px-3" />
+                                                    <input onChange={handleInputChange} name='CustomerTaxID' type='text' value={editCustomerData?.CustomerTaxID as string} className="flex p-1 justify-center align-middle bg-white border rounded-md text-black px-3" />
                                                 </Tooltip>
                                             </div>
                                             <div> {/* Client data end */}

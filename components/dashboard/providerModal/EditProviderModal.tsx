@@ -19,26 +19,19 @@ export default function EditProviderModal({ refetchCallback, refetchState, isMod
     const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         let { name, files } = e.target
         if (files == null || files == undefined) {
-            return
-        }
-        if (files === null || files === undefined) {
-            return
+            return;
         }
         if (files.length === 0) {
-            return
-        }
-        if (files[0] === null || files[0] === undefined) {
-            return
+            return;
         }
         // Check if the file has a valid extension
-        //!TODO Check if the file name is empty? can cause crash idk?.
         let file = files[0];
-        if (file.name === null || file.name === undefined) {
-            return
+        if (file == null || file.name == null) {
+            return;
         }
         const validExtensions = ["jpg", "jpeg", "png"];
-        const extension = file.name.split(".").pop().toLowerCase(); //Get rid of this  idk xd
-        if (!validExtensions.includes(extension)) {
+        const extension = file.name.split(".").pop()?.toLowerCase();
+        if (!validExtensions.includes(extension as string)) {
             console.log("Invalid file type. Please select a JPG or PNG image.");
             return;
         }
