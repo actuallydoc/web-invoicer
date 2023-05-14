@@ -24,6 +24,12 @@ export default function Home() {
     setRegister(!register);
   };
 
+  const handleSignin = () => {
+    signIn();
+  };
+  const handleSignout = () => {
+    signOut();
+  };
   return (
     <>
       <Head>
@@ -50,7 +56,7 @@ export default function Home() {
             <div>
               {!session ? (
                 <button
-                  onClick={signIn}
+                  onClick={handleSignin}
                   className={
                     "bg-blue-500   hover:transition-all hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   }
@@ -61,15 +67,15 @@ export default function Home() {
                 <div>
                   <div className="">
                     <div className="text-center">
-                      <img src={session.user.image as string} width={32} height={32} className="rounded-2xl" alt="" />
+                      <img src={session?.user?.image as string} width={32} height={32} className="rounded-2xl" alt="" />
                     </div>
                     <div className="">
-                      <p className="text-xl">{session.user.name as string}</p>
+                      <p className="text-xl">{session?.user?.name as string}</p>
                     </div>
                   </div>
                   <div>
                     <button
-                      onClick={signOut}
+                      onClick={handleSignout}
                       className={
                         "bg-blue-500   hover:transition-all hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                       }
