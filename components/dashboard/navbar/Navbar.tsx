@@ -7,7 +7,7 @@ const Navbar = ({ invoiceCallback, providerCallback, serviceCallback, customerCa
     return (
         <div className="flex pl-10 space-x-10 bg-blue-500 text-slate-200 w-[100vw]">
             {
-                Tabs.map((tab, index) => {
+                Tabs.map((tab) => {
                     return (
 
                         <div className='flex ml-auto  hover:scale-105 cursor-pointer'>
