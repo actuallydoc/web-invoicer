@@ -56,10 +56,6 @@ export default function CreateCustomerModal({ refetchCallback, refetchState, use
     const handleCloseModal = () => {
         toggleModal(false)
     }
-    useEffect(() => {
-        console.log(createCustomerData)
-        // Make a request with DDVSearcher and fetch the data and make a dropdown below the field with the data if the user clicks the data from the dropdown then the data will be set to the field
-    }, [createCustomerData])
 
     return (
         <>

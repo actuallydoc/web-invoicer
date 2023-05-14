@@ -46,12 +46,12 @@ export default function Home() {
           <div className="box-border   p-4 border-b-2 text-center mb-3">
             <div>
               <h1 className={"text-4xl"}>
-                Pozdravljeni na Web Invoicer Aplikaciji
+                Welcome to the Web Invoicer App
               </h1>
             </div>
             <div>
               <p className={"text-2xl"}>
-                Za začetek izberite eno od možnosti v meniju
+                Login and go to the dashboard page
               </p>
             </div>
           </div>
