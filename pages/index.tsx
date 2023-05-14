@@ -70,7 +70,7 @@ export default function Home() {
                 <div>
                   <div className="">
                     <div className="text-center">
-                      <img src={session?.user?.image as string} width={32} height={32} className="rounded-2xl" alt="" />
+                      <img src={session?.user?.image as string} width={32} height={32} className="rounded-2xl p-2" alt="" />
                     </div>
                     <div className="">
                       <p className="text-xl">{session?.user?.name as string}</p>
@@ -80,7 +80,7 @@ export default function Home() {
                     <button
                       onClick={handleSignout}
                       className={
-                        "bg-blue-500   hover:transition-all hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        "bg-blue-500   hover:transition-all hover:bg-blue-700 text-white font-bold p-2 px-4 rounded"
                       }
                     >
                       Log out
@@ -90,7 +90,7 @@ export default function Home() {
                     <button
                       onClick={handleRedirect}
                       className={
-                        "bg-blue-500   hover:transition-all hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        "bg-blue-500 p-2 mt-5   hover:transition-all hover:bg-blue-700 text-white font-bold  px-4 rounded"
                       }
                     >
                       Dashboard

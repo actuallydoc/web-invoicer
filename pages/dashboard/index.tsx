@@ -73,7 +73,7 @@ const Index = ({ data, session }: { session: Session, data: string | null | any 
         };
     };
     const fetchServices = async () => {
-        console.log("Fetching services");
+
         const { data, error } = await supabase.from('services').select('*').eq('user_id', userId);
         if (error) {
             setFetchError(error);
@@ -84,7 +84,7 @@ const Index = ({ data, session }: { session: Session, data: string | null | any 
         };
     };
     const fetchCustomers = async () => {
-        console.log("Fetching customers");
+
         const { data, error } = await supabase.from('customers').select('*').eq('user_id', userId);
         if (error) {
             setFetchError(error);
@@ -96,8 +96,7 @@ const Index = ({ data, session }: { session: Session, data: string | null | any 
     };
 
     const fetchProviders = async () => {
-        console.log("Fetching providers");
-        console.log(userId)
+
         const { data, error } = await supabase.from('providers').select('*').eq('user_id', userId);
         if (error) {
             setFetchError(error);
@@ -109,21 +108,20 @@ const Index = ({ data, session }: { session: Session, data: string | null | any 
     };
     //Temp data for the customer
     const handleCreateInvoice = () => {
-        console.log("Create invoice button clicked");
+
         setInvoiceCreateModal(true);
     };
     //This is for Adding a new Customer
     const handleCreateCustomer = () => {
-        console.log("Create customer button clicked");
+
         setCreateCustomer(true);
     };
     //This is for Adding a new invoice
     const handleCreateProvider = () => {
-        console.log("Create company button clicked");
+
         setCreateProvider(true);
     };
     const handleCreateService = () => {
-        console.log("Create service button clicked");
         setCreateService(true);
     };
     //This is for Editing an invoice
