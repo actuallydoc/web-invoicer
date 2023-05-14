@@ -34,7 +34,7 @@ export default function CreateServiceModal({ userId, isModalOpen, toggleModal }:
                 console.log(error)
             }
             else {
-                console.log(data)
+                toggleModal(false)
             }
         }
     }

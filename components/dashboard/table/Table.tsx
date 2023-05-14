@@ -7,8 +7,8 @@ import { Customer, Invoice, Service } from '@/types/database/types';
 import { useSession } from 'next-auth/react';
 import { Provider } from '@/types/database/types';
 
-
-export default function Table({ customers, services, providers, InvoiceDataCallBack, InvoiceDataState, toggleInvoiceModal, InvoiceModalState, datepickerFromState, datepickerToState, datepickerFrom, datepickerTo, invoiceState, providerState, serviceState, customerState }: { providers: Provider[] | null, customers: Customer[] | null, services: Service[] | null, InvoiceDataCallBack: React.Dispatch<React.SetStateAction<Invoice>>, InvoiceDataState: Invoice | undefined, toggleInvoiceModal: React.Dispatch<React.SetStateAction<boolean>>, InvoiceModalState: boolean, datepickerFromState: string, datepickerToState: string, datepickerFrom: React.Dispatch<React.SetStateAction<string>>, datepickerTo: React.Dispatch<React.SetStateAction<string>>, invoiceState: boolean, providerState: boolean, serviceState: boolean, customerState: boolean }) {
+//                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              providerDataCallback, providerModalState, toggleProviderModal
+export default function Table({ providerDataCallback, providerModalState, toggleProviderModal, serviceDataCallback, toggleServiceModal, serviceModalState, customerDataCallback, toggleCustomerModal, customerModalState, customers, services, providers, InvoiceDataCallBack, InvoiceDataState, toggleInvoiceModal, InvoiceModalState, datepickerFromState, datepickerToState, datepickerFrom, datepickerTo, invoiceState, providerState, serviceState, customerState }: { providerDataCallback: React.Dispatch<React.SetStateAction<Provider>>, toggleProviderModal: React.Dispatch<React.SetStateAction<boolean>>, providerModalState: Provider, customerDataCallback: React.Dispatch<React.SetStateAction<Customer>>, toggleCustomerModal: React.Dispatch<React.SetStateAction<boolean>>, customerModalState: Customer, providers: Provider[] | null, customers: Customer[] | null, services: Service[] | null, InvoiceDataCallBack: React.Dispatch<React.SetStateAction<Invoice>>, InvoiceDataState: Invoice | undefined, toggleInvoiceModal: React.Dispatch<React.SetStateAction<boolean>>, InvoiceModalState: boolean, datepickerFromState: string, datepickerToState: string, datepickerFrom: React.Dispatch<React.SetStateAction<string>>, datepickerTo: React.Dispatch<React.SetStateAction<string>>, invoiceState: boolean, providerState: boolean, serviceState: boolean, customerState: boolean, serviceDataCallback: React.Dispatch<React.SetStateAction<Service>>, toggleServiceModal: React.Dispatch<React.SetStateAction<boolean>>, serviceModalState: Service }) {
 
 
 
@@ -21,21 +21,21 @@ export default function Table({ customers, services, providers, InvoiceDataCallB
   else if (providerState) {
     return (
       <div>
-        <ProviderTable providers={providers} />
+        <ProviderTable providerDataCallback={providerDataCallback} providerModalState={providerModalState} toggleProviderModal={toggleProviderModal} providers={providers} />
       </div>
     )
   }
   else if (serviceState) {
     return (
       <div>
-        <ServiceTable services={services} />
+        <ServiceTable serviceDataCallback={serviceDataCallback} serviceModalState={serviceModalState} toggleServiceModal={toggleServiceModal} services={services} />
       </div>
     )
   }
   else if (customerState) {
     return (
       <div>
-        <CustomerTable customers={customers} />
+        <CustomerTable customerDataCallback={customerDataCallback} customers={customers} toggleCustomerModal={toggleCustomerModal} customerModalState={customerModalState} />
       </div>
     )
 

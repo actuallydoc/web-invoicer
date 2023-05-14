@@ -8,7 +8,11 @@ const ServiceTableDataRows = [
   ['test', "towing", '$100'],
 ]
 
-export default function ServiceTable({ services }: { services: Service[] | null }) {
+export default function ServiceTable({ services, serviceDataCallback, toggleServiceModal, serviceModalState }: { serviceDataCallback: React.Dispatch<React.SetStateAction<Service>>, services: Service[] | null, toggleServiceModal: React.Dispatch<React.SetStateAction<boolean>>, serviceModalState: Service }) {
+  const handleModalEdit = (index: Service) => {
+    serviceDataCallback(index);
+    toggleServiceModal(true);
+  }
   return (
     <div>
       <div className='flex-col bg-blue-500 text-black py-2  px-4 rounded'></div>
@@ -24,10 +28,12 @@ export default function ServiceTable({ services }: { services: Service[] | null 
               })}
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white">
             {services?.map((service) => {
               return (
-                <tr key={service.id} className='text-black'>
+                <tr key={service.id} className='text-black hover:scale-105 duration-150 space-y-3 cursor-pointer' onClick={() => {
+                  handleModalEdit(service);
+                }}>
                   <td className="px-6 py-4 whitespace-nowrap">{service.ServiceName}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{service.ServiceDescription}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{service.ServicePriceTax}</td>

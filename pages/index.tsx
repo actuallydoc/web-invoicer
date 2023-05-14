@@ -55,16 +55,16 @@ export default function Home() {
                     "bg-blue-500   hover:transition-all hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   }
                 >
-                  Prijava
+                  Login
                 </button>
               ) : (
                 <div>
                   <div className="">
                     <div className="text-center">
-                      <img src={session.user.image} width={32} height={32} className="rounded-2xl" alt="" />
+                      <img src={session.user.image as string} width={32} height={32} className="rounded-2xl" alt="" />
                     </div>
                     <div className="">
-                      <p className="text-xl">{session.user.name}</p>
+                      <p className="text-xl">{session.user.name as string}</p>
                     </div>
                   </div>
                   <div>
@@ -74,9 +74,10 @@ export default function Home() {
                         "bg-blue-500   hover:transition-all hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                       }
                     >
-                      Odjava
+                      Log out
                     </button>
                   </div>
+
                 </div>
               )}
             </div>

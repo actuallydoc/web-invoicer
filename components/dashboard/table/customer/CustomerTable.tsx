@@ -8,10 +8,16 @@ const CustomerTableDataRows = [
 ]
 
 
-export default function CustomerTable({ customers }: { customers: Customer[] | null }) {
+
+export default function CustomerTable({ customerDataCallback, customers, toggleCustomerModal, customerModalState }: { customerDataCallback: React.Dispatch<React.SetStateAction<Customer>>, customers: Customer[] | null, toggleCustomerModal: React.Dispatch<React.SetStateAction<boolean>>, customerModalState: Customer }) {
   useEffect(() => {
-    console.log(customers)
+    console.log(customerModalState)
   }, []);
+
+  const handleModalEdit = (index: Customer) => {
+    customerDataCallback(index);
+    toggleCustomerModal(true);
+  }
   return (
     <div>
       <div className='flex-col bg-blue-500 text-black py-2  px-4 rounded'></div>
@@ -27,10 +33,12 @@ export default function CustomerTable({ customers }: { customers: Customer[] | n
               })}
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white">
             {customers?.map((customer) => {
               return (
-                <tr key={customer.id} className='text-black'>
+                <tr key={customer.id} className='text-black hover:scale-105 duration-150 space-y-3 cursor-pointer' onClick={() => {
+                  handleModalEdit(customer);
+                }}>
                   <td className="px-6 py-4 whitespace-nowrap">{customer.CustomerName}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{customer.CustomerAddress}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{customer.CustomerCity}</td>

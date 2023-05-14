@@ -5,12 +5,13 @@ import Table from '@/components/dashboard/table/Table';
 import { User, Customer, Invoice, Provider, Service } from "../../types/database/types"
 import Fab from '@mui/material/Fab';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import InvoiceModal from '@/components/dashboard/invoiceModal/InvoiceModal';
+import InvoiceEditModal from '@/components/dashboard/invoiceModal/InvoiceEditModal';
 import { Tooltip } from '@mui/material';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import InvoiceCreateModal from '@/components/dashboard/invoiceModal/InvoiceCreateModal';
 import PersonIcon from '@mui/icons-material/Person';
+import EditCustomerModal from '@/components/dashboard/customerModal/EditCustomerModal';
 import CreateProviderModal from '@/components/dashboard/providerModal/CreateProviderModal';
 import CreateCustomerModal from '@/components/dashboard/customerModal/CreateCustomerModal';
 import { useSession, getSession, GetSessionParams } from 'next-auth/react';
@@ -18,8 +19,12 @@ import supabase from "@/db/client"
 import { GetServerSideProps } from 'next';
 import { PostgrestError } from '@supabase/supabase-js';
 import CreateServiceModal from '@/components/dashboard/serviceModal/CreateServiceModal';
-
-const Index = () => {
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
+import { Session } from 'next-auth';
+import { set } from 'zod';
+import EditServiceModal from '@/components/dashboard/serviceModal/EditServiceModal';
+import EditProviderModal from '@/components/dashboard/providerModal/EditProviderModal';
+const Index = ({ data, session }: { session: Session, data: string | null | any }) => {
 
     //!TODO Refetch callback for the table 
 
@@ -44,11 +49,16 @@ const Index = () => {
     const [provider, setProvider] = useState(false);
     const [service, setService] = useState(false);
     //Edit for invoice
-    const [invoiceEdit, setInvoiceEdit] = useState(false);
+    // const [invoiceEdit, setInvoiceEdit] = useState(false);
     //Temp data for the invoice
     const [invoiceTemp, setInvoiceTemp] = useState<Invoice>({} as Invoice);
     //Edit for customer
     const [customerEdit, setCustomerEdit] = useState(false);
+    const [customerTemp, setCustomerTemp] = useState<Customer>({} as Customer);
+    const [serviceEdit, setServiceEdit] = useState(false);
+    const [serviceTemp, setServiceTemp] = useState<Service>({} as Service);
+    const [providerEdit, setProviderEdit] = useState(false);
+    const [providerTemp, setProviderTemp] = useState<Provider>({} as Provider);
     //Temp data for the customer
     const handleCreateInvoice = () => {
         console.log("Create invoice button clicked");
@@ -72,16 +82,14 @@ const Index = () => {
     const handleOpenFab = () => {
         setShowButtons(!showButtons);
     };
-    const { data: session, status } = useSession({ required: true });
-    const [userId, setUserId] = useState(null);
+    // const { data: session, status } = useSession({ required: true });
+    const [userId, setUserId] = useState(data[0]?.id);
+    useEffect(() => {
+        setUserId(data[0]?.id);
+    }, [userId]);
     const [fetchError, setFetchError] = useState<PostgrestError>();
     useEffect(() => {
         const fetchUserId = async () => {
-            const { data, error } = await supabase.from('users').select('*').eq('email', session?.user?.email);
-            if (error) {
-                setFetchError(error);
-                return;
-            }
             if (data) {
                 setUserId(data[0]?.id);
                 if (userId !== null) {
@@ -127,15 +135,17 @@ const Index = () => {
                 setProviders(data as Provider[]);
             };
         };
-        if (session?.user?.email !== undefined && status === "authenticated") {
-            console.log(session);
+        if (session) {
             fetchUserId();
         }
-        fetchUserId();
     }, []);
     if (!session) {
-
-    } else if (status === "authenticated" && session) {
+        return (
+            <div>
+                <h1>Loading</h1>
+            </div>
+        )
+    } else if (session) {
         return (
             <div>
                 <header>
@@ -148,16 +158,26 @@ const Index = () => {
                     <div className=''>
                         {/* Fix the Width of the bg-slate-200 its basically too wide */}
                         <div className='flex flex-col items-center justify-center pt-5'>
-                            <Table services={services} customers={customers} providers={providers} InvoiceDataCallBack={setInvoiceTemp} InvoiceDataState={invoiceTemp} toggleInvoiceModal={setInvoiceModal} InvoiceModalState={invoiceModal} datepickerFromState={dateFrom} datepickerToState={dateTo} datepickerFrom={setDateFrom} datepickerTo={setDateTo} invoiceState={invoice} customerState={customer} providerState={provider} serviceState={service} />
+                            <Table providerDataCallback={setProviderTemp} providerModalState={providerTemp} toggleProviderModal={setProviderEdit} serviceDataCallback={setServiceTemp} serviceModalState={serviceTemp} toggleServiceModal={setServiceEdit} customerDataCallback={setCustomerTemp} customerModalState={customerTemp} toggleCustomerModal={setCustomerEdit} services={services} customers={customers} providers={providers} InvoiceDataCallBack={setInvoiceTemp} InvoiceDataState={invoiceTemp} toggleInvoiceModal={setInvoiceModal} InvoiceModalState={invoiceModal} datepickerFromState={dateFrom} datepickerToState={dateTo} datepickerFrom={setDateFrom} datepickerTo={setDateTo} invoiceState={invoice} customerState={customer} providerState={provider} serviceState={service} />
                         </div>
                     </div>
 
                     <div className='flex flex-col items-center justify-center'>
                         {invoiceModal ? (
                             <div>
-                                <InvoiceModal InvoiceModalData={invoiceTemp} isModalOpen={invoiceModal} toggleModal={setInvoiceModal} />
+                                <InvoiceEditModal InvoiceModalData={invoiceTemp} isModalOpen={invoiceModal} toggleModal={setInvoiceModal} />
                             </div>
                         ) : null}
+                        {customerEdit ? (<div>
+                            <EditCustomerModal customerDataCallback={setCustomerTemp} customerModalData={customerTemp} isModalOpen={customerEdit} toggleModal={setCustomerEdit} />
+                        </div>) : null}
+                        {serviceEdit ? (<div>
+                            <EditServiceModal serviceDataCallback={setServiceTemp} serviceModalData={serviceTemp} isModalOpen={serviceEdit} toggleModal={setServiceEdit} />
+                        </div>) : null}
+                        {providerEdit ? (<div>
+                            <EditProviderModal providerDataCallback={setProviderTemp} providerModalState={providerTemp} isModalOpen={providerEdit} toggleModal={setProviderEdit} />
+                        </div>) : null}
+
                         {invoiceCreateModal ? <InvoiceCreateModal isModalOpen={invoiceCreateModal} toggleModal={setInvoiceCreateModal} /> : null}
                         {createProvider ? <CreateProviderModal userId={userId} isModalOpen={createProvider} toggleModal={setCreateProvider} /> : null}
                         {createCustomer ? <CreateCustomerModal userId={userId} isModalOpen={createCustomer} toggleModal={setCreateCustomer} /> : null}
@@ -170,13 +190,6 @@ const Index = () => {
                                         } transition-transform duration-300 transform ${showButtons ? "-translate-y-full" : "translate-y-0"
                                         }`}
                                 >
-                                    {/* <div>
-                                    <Tooltip title="Create">
-                                        <Fab onClick={handleAddFab} className="bg-green-800" color="primary" aria-label="option 1">
-                                            <AddIcon />
-                                        </Fab>
-                                    </Tooltip>
-                                </div> */}
                                     <div>
                                         <Tooltip title="Create Invoice" placement="left" >
                                             <Fab onClick={handleCreateInvoice} className="bg-red-500" color="primary" aria-label="option 2">
@@ -194,7 +207,7 @@ const Index = () => {
                                     <div>
                                         <Tooltip title="Create Service" placement="left">
                                             <Fab onClick={handleCreateService} className="bg-slate-500" color="primary" aria-label="option 2">
-                                                <ApartmentIcon />
+                                                <CleaningServicesIcon />
                                             </Fab>
                                         </Tooltip>
                                     </div>
@@ -236,6 +249,7 @@ export default Index;
 
 export const getServerSideProps: GetServerSideProps = async (context: GetSessionParams | undefined) => {
     const session = await getSession(context);
+    const { data, error } = await supabase.from('users').select('*').eq('email', session?.user?.email);
     //Maybe fetch the user data here idk
     if (!session) {
         return {
@@ -246,6 +260,6 @@ export const getServerSideProps: GetServerSideProps = async (context: GetSession
         };
     }
     return {
-        props: { session },
+        props: { session, data },
     };
 }

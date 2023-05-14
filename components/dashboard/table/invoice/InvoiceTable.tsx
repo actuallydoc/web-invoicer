@@ -1,4 +1,4 @@
-import type { Customer, Invoice, Provider, Service, User } from '@/pages/dashboard/types';
+import type { Customer, Invoice, Provider, Service, User } from '@/types/database/types';
 import React, { useEffect, useState } from 'react'
 import { any } from 'zod';
 export enum InvoiceStatus {
@@ -62,8 +62,8 @@ const invoice1: Invoice = {
   provider: provider1,
   customer: customer1,
   services: [service1],
-  vat_rate: 0.2,
-  price_tax: 1200,
+  vatRate: 0.2,
+  priceVat: 1200,
 };
 
 const invoice2: Invoice = {
@@ -78,8 +78,8 @@ const invoice2: Invoice = {
   provider: provider1,
   customer: customer1,
   services: [service1],
-  vat_rate: 0.2,
-  price_tax: 1200,
+  vatRate: 0.2,
+  priceVat: 1200,
 };
 
 
@@ -102,7 +102,7 @@ export default function InvoiceTable({ InvoiceDataState, IvoiceDataCallBack, tog
     datepickerTo(e.target.value);
   }
   const handleModalEdit = (index: Invoice) => {
-    console.log("handleModalEdit: " + index.id);
+    // console.log("handleModalEdit: " + index.id);
     IvoiceDataCallBack(index);
     toggleInvoiceModal(true);
   }
@@ -150,15 +150,14 @@ export default function InvoiceTable({ InvoiceDataState, IvoiceDataCallBack, tog
         <tbody className="bg-white divide-y divide-gray-200">
           {filteredData.map((rowData, index) => {
             const rowKey = `${rowData.invoiceNumber}-${index}`; // create a unique key for each row
-
             return (
-              <tr key={rowKey} className="bg-white hover:scale-105 duration-150 space-y-3 cursor-pointer">
-                <td onClick={() => handleModalEdit(rowData)} className="px-6 py-4 whitespace-nowrap">{rowData.invoiceDate}</td>
-                <td onClick={() => handleModalEdit(rowData)} className="px-6 py-4 whitespace-nowrap">{rowData.invoiceNumber}</td>
-                <td onClick={() => handleModalEdit(rowData)} className="px-6 py-4 whitespace-nowrap">{rowData.invoiceAmount}</td>
-                <td onClick={() => handleModalEdit(rowData)} className="px-6 py-4 whitespace-nowrap">{rowData.invoiceStatus}</td>
-                <td onClick={() => handleModalEdit(rowData)} className="px-6 py-4 whitespace-nowrap">{rowData.provider.ProviderName}</td>
-                <td onClick={() => handleModalEdit(rowData)} className="px-6 py-4 whitespace-nowrap">{rowData.customer.CustomerName}</td>
+              <tr key={rowKey} className="bg-white hover:scale-105 duration-150 space-y-3 cursor-pointer" onClick={() => handleModalEdit(rowData)}>
+                <td className="px-6 py-4 whitespace-nowrap">{rowData.invoiceDate}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{rowData.invoiceNumber}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{rowData.invoiceAmount}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{rowData.invoiceStatus}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{rowData.provider.ProviderName}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{rowData.customer.CustomerName}</td>
               </tr>
             )
           })}

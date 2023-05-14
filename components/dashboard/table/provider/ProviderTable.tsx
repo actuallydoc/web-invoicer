@@ -7,10 +7,13 @@ const ProviderTableDataRows = [
   ['Jane Doe', '123 Main Street', 'New York', 'USA', '1234567890', 'anpch@example.com'],
 ]
 
-export default function ProviderTable({ providers }: { providers: Provider[] | null }) {
-
+export default function ProviderTable({ providers, providerDataCallback, toggleProviderModal, providerModalState }: { providers: Provider[] | null, providerDataCallback: React.Dispatch<React.SetStateAction<Provider>>, toggleProviderModal: React.Dispatch<React.SetStateAction<boolean>>, providerModalState: Provider }) {
+  const handleModalEdit = (index: Provider) => {
+    providerDataCallback(index);
+    toggleProviderModal(true);
+  }
   useEffect(() => {
-    console.log(providers)
+
   }, []);
   return (
     <div>
@@ -30,7 +33,9 @@ export default function ProviderTable({ providers }: { providers: Provider[] | n
           <tbody className="bg-white divide-y divide-gray-200">
             {providers?.map((provider) => {
               return (
-                <tr key={provider.id} className='text-black'>
+                <tr key={provider.id} className='text-black bg-white hover:scale-105 duration-150 space-y-3 cursor-pointer' onClick={() => {
+                  handleModalEdit(provider)
+                }}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">{provider.ProviderName}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm ">{provider.ProviderAddress}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm ">{provider.ProviderCity}</td>
