@@ -14,6 +14,6 @@ export default NextAuth({
         url: process.env.NEXT_PUBLIC_SUPABASE_URL as string,
         secret: process.env.NEXT_PUBLIC_SUPABASE_SERVICE_KEY as string,
     }),
-    secret: process.env.JWT_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
 
 })
