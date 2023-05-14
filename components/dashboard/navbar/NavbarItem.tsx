@@ -48,6 +48,9 @@ export default function NavbarItem({
     setActiveProfile(!activeProfile);
 
   };
+  const handleSignout = () => {
+    signOut();
+  };
   useEffect(() => {
     //*Todo check for auth and fetch invoices
   }, []);
@@ -68,7 +71,7 @@ export default function NavbarItem({
         {activeProfile && (
           <div>
             {/* Fix this button its ugly */}
-            <button onClick={signOut} className='text-white hover:text-red-700 border rounded-lg p-1'>Signout</button>
+            <button onClick={handleSignout} className='text-white hover:text-red-700 border rounded-lg p-1'>Signout</button>
           </div>)
         }
       </div>
