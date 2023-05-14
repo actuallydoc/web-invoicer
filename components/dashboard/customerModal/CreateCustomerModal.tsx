@@ -29,22 +29,25 @@ export default function CreateCustomerModal({ refetchCallback, refetchState, use
     const { data: session } = useSession();
     const handleCreateCustomer = () => {
         console.log('create customer')
-        if (session && userId.length > 0) {
-            supabase.from('customers').insert([
-                {
-                    CustomerName: createCustomerData.CustomerName,
-                    CustomerAddress: createCustomerData.CustomerAddress,
-                    CustomerCity: createCustomerData.CustomerCity,
-                    CustomerCountry: createCustomerData.CustomerCountry,
-                    CustomerEmail: createCustomerData.CustomerEmail,
-                    CustomerPhone: createCustomerData.CustomerPhone,
-                    CustomerPostalCode: createCustomerData.CustomerPostalCode,
-                    CustomerTaxID: createCustomerData.CustomerTaxID,
-                    user_id: userId
-                },
-            ]).then((result) => {
-                console.log(result)
-            })
+        if (userId && userId.length > 0) {
+
+            if (session && userId.length > 0) {
+                supabase.from('customers').insert([
+                    {
+                        CustomerName: createCustomerData.CustomerName,
+                        CustomerAddress: createCustomerData.CustomerAddress,
+                        CustomerCity: createCustomerData.CustomerCity,
+                        CustomerCountry: createCustomerData.CustomerCountry,
+                        CustomerEmail: createCustomerData.CustomerEmail,
+                        CustomerPhone: createCustomerData.CustomerPhone,
+                        CustomerPostalCode: createCustomerData.CustomerPostalCode,
+                        CustomerTaxID: createCustomerData.CustomerTaxID,
+                        user_id: userId
+                    },
+                ]).then((result) => {
+                    console.log(result)
+                })
+            }
         }
         refetchCallback(!refetchState);
         toggleModal(false)
