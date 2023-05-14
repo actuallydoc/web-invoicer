@@ -1,17 +1,20 @@
 import { Provider } from '@/types/database/types'
 import Tooltip from '@mui/material/Tooltip'
-import React from 'react'
+import React, { useEffect } from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
+import supabase from "@/db/client"
+
+//!TODO Signature state stays the same when u remove the signature and reopen the modal!
 export default function EditProviderModal({ isModalOpen, providerDataCallback, providerModalState, toggleModal }: { isModalOpen: boolean, providerDataCallback: React.Dispatch<React.SetStateAction<Provider>>, toggleModal: React.Dispatch<React.SetStateAction<boolean>>, providerModalState: Provider }) {
-    const [isSignature, setIsSignature] = React.useState<boolean>(false)
-    const [isImage, setIsImage] = React.useState<string>()
+    // const [isSignature, setIsSignature] = React.useState<boolean>(false)
+    const [isImage, setIsImage] = React.useState<string | null>(providerModalState?.Signature as string)
     const [editProvider, setEditProvider] = React.useState<Provider>(providerModalState);
     const handleRemoveSignature = () => {
-        setIsSignature(false)
-        setIsImage(undefined)
+
+        setIsImage(null);
         editProvider.Signature = undefined
     }
     const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,15 +48,45 @@ export default function EditProviderModal({ isModalOpen, providerDataCallback, p
     }
     const handleFileLoad = (e: any) => {
         setIsImage(e.target.result) // base64 string of the signature   
-        setIsSignature(true)
         editProvider.Signature = e.target.result
     }
     const handleCloseModal = () => {
+
         toggleModal(false);
     }
 
+    useEffect(() => {
+        setIsImage(providerModalState.Signature as string)
+    }, [providerModalState])
+
     const handleEditProvider = () => {
         console.log(editProvider);
+        const updateProvider = async () => {
+            const { data, error } = await supabase.from('providers').update({
+                ProviderName: editProvider.ProviderName,
+                ProviderAddress: editProvider.ProviderAddress,
+                ProviderCity: editProvider.ProviderCity,
+                ProviderCountry: editProvider.ProviderCountry,
+                ProviderEmail: editProvider.ProviderEmail,
+                ProviderPhone: editProvider.ProviderPhone,
+                ProviderPostalCode: editProvider.ProviderPostalCode,
+                Signature: editProvider.Signature,
+            }).eq('id', editProvider.id);
+            if (error) {
+
+                return error;
+            }
+            if (data) {
+                console.log(data);
+
+                return data;
+            }
+        }
+        updateProvider().then(() => {
+            toggleModal(false)
+        }).catch((err) => {
+            console.log(err);
+        })
     }
     const handleDeleteProvider = () => {
         console.log(editProvider);
@@ -120,16 +153,16 @@ export default function EditProviderModal({ isModalOpen, providerDataCallback, p
                                                     <input onChange={handleInputChange} name='ProviderCountry' type='text' value={editProvider?.ProviderCountry} className="flex p-1 justify-center align-middle bg-white border rounded-md text-black px-3" />
                                                 </Tooltip>
                                                 <Tooltip placement="top" title="Provider Email" arrow>
-                                                    <input onChange={handleInputChange} name='ProviderCountry' type='text' value={editProvider?.ProviderEmail} className="flex p-1 justify-center align-middle bg-white border rounded-md text-black px-3" />
+                                                    <input onChange={handleInputChange} name='ProviderEmail' type='text' value={editProvider?.ProviderEmail} className="flex p-1 justify-center align-middle bg-white border rounded-md text-black px-3" />
                                                 </Tooltip>
                                                 <Tooltip placement="top" title="Provider Phone" arrow>
-                                                    <input onChange={handleInputChange} name='ProviderCountry' type='text' value={editProvider?.ProviderPhone} className="flex p-1 justify-center align-middle bg-white border rounded-md text-black px-3" />
+                                                    <input onChange={handleInputChange} name='ProviderPhone' type='text' value={editProvider?.ProviderPhone} className="flex p-1 justify-center align-middle bg-white border rounded-md text-black px-3" />
                                                 </Tooltip>
                                                 <Tooltip placement="top" title="Provider PostalCode" arrow>
-                                                    <input onChange={handleInputChange} name='ProviderCountry' type='text' value={editProvider?.ProviderPostalCode} className="flex p-1 justify-center align-middle bg-white border rounded-md text-black px-3" />
+                                                    <input onChange={handleInputChange} name='ProviderPostalCode' type='text' value={editProvider?.ProviderPostalCode} className="flex p-1 justify-center align-middle bg-white border rounded-md text-black px-3" />
                                                 </Tooltip>
 
-                                                {editProvider?.Signature === undefined ? (
+                                                {!isImage ? (
                                                     <Tooltip placement="top" title="Provider signature" arrow>
                                                         <div className="flex items-center justify-center">
 
@@ -150,7 +183,7 @@ export default function EditProviderModal({ isModalOpen, providerDataCallback, p
 
                                                             <Tooltip placement="top" title="Provider signature" arrow>
                                                                 <div className="flex items-center justify-center">
-                                                                    <img src={editProvider?.Signature} className='w-32 max-h-20' alt="" />
+                                                                    <img src={isImage as string} className='w-32 max-h-20' alt="" />
                                                                 </div>
                                                             </Tooltip>
                                                         </div>

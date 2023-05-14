@@ -44,7 +44,7 @@ export interface Provider {
     ProviderCity: string;
     ProviderCountry: string;
     ProviderPostalCode: string;
-    Signature: File | undefined; //Base64 encoded string
+    Signature: String | undefined; //Base64 encoded string
     // services: Service[];
 }
 export interface Invoice {
