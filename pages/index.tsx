@@ -30,6 +30,9 @@ export default function Home() {
   const handleSignout = () => {
     signOut();
   };
+  const handleRedirect = () => {
+    window.location.href = "/dashboard";
+  };
   return (
     <>
       <Head>
@@ -81,6 +84,16 @@ export default function Home() {
                       }
                     >
                       Log out
+                    </button>
+                  </div>
+                  <div>
+                    <button
+                      onClick={handleRedirect}
+                      className={
+                        "bg-blue-500   hover:transition-all hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      }
+                    >
+                      Dashboard
                     </button>
                   </div>
 
